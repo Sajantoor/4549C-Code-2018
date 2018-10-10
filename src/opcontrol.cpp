@@ -16,9 +16,6 @@ using namespace pros::literals;
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-
-// void opcontrol() {
-// 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 // 	auto left_mtr = 1_mtr;
 // 	pros::Motor right_mtr(2);
 // 	while (true) {
@@ -36,21 +33,39 @@ using namespace pros::literals;
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	auto left_mtr = 1_mtr;
-	auto left_mtr2 = 2_mtr;
+	auto forward_left_mtr = 2_mtr;
 	pros::Motor right_mtr(3);
-	pros::Motor right_mtr2(4);
+	pros::Motor forward_right_mtr2(4);
+	pros::Motor arm(5);
 	while (true) {
-		int left = master.get_analog(ANALOG_LEFT_Y);
+
+
+		int left = 120;
 		//	int leftText = (left / 127) * 100;
 		pros::lcd::set_text(1, "Left speed: " + std::to_string(left));
 		int right = master.get_analog(ANALOG_RIGHT_Y);
 		//	int rightText = (right / 127) * 100;
 		pros::lcd::set_text(2, "Right speed: " + std::to_string(right));
+		pros::lcd::set_text(3, "Actual Velocity: " + std::to_string(left_mtr.get_actual_velocity()));
+		 printf("Actual velocity: %lf\n", left_mtr.get_actual_velocity());
 		left_mtr = left;
-		left_mtr2 = (left * -1);
-
-		right_mtr = (right * -1);
-		right_mtr2 = right;
+		forward_left_mtr = (left * -1);
+		arm = 0;
+		right_mtr = right;
+		forward_right_mtr2 = (right * -1);
 		pros::delay(20);
+		left = 200;
+
+		if (master.get_digital(DIGITAL_X)) {
+			arm = -100;
+			pros::delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_B)) {
+			arm = 100;
+			pros::delay(20);
+		}
+	//	motor_move(1, controller_get_analog(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_ANALOG_LEFT_Y));
+
 	}
 }
