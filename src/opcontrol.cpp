@@ -37,10 +37,11 @@ void opcontrol() {
 	pros::Motor right_mtr(3);
 	pros::Motor forward_right_mtr2(4);
 	pros::Motor arm(5);
+	pros::Motor spinner(6);
 	while (true) {
 
 
-		int left = 120;
+		int left = master.get_analog(ANALOG_LEFT_Y);
 		//	int leftText = (left / 127) * 100;
 		pros::lcd::set_text(1, "Left speed: " + std::to_string(left));
 		int right = master.get_analog(ANALOG_RIGHT_Y);
@@ -53,6 +54,7 @@ void opcontrol() {
 		arm = 0;
 		right_mtr = right;
 		forward_right_mtr2 = (right * -1);
+		spinner = 0;
 		pros::delay(20);
 		left = 200;
 
@@ -63,6 +65,16 @@ void opcontrol() {
 
 		if (master.get_digital(DIGITAL_B)) {
 			arm = 100;
+			pros::delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_UP)) {
+			spinner = -127;
+			pros::delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_DOWN)) {
+			spinner = 127;
 			pros::delay(20);
 		}
 	//	motor_move(1, controller_get_analog(pros::E_CONTROLLER_MASTER, pros::E_CONTROLLER_ANALOG_LEFT_Y));
