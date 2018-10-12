@@ -8,9 +8,8 @@ void opcontrol() {
 	auto forward_left_mtr = 2_mtr;
 	pros::Motor right_mtr(3);
 	pros::Motor forward_right_mtr2(4);
-	pros::Motor arm(5);
-	pros::Motor crane(6);
-	pros::Motor spinner(7);
+	pros::Motor crane(5);
+	pros::Motor pickerupper(6);
 	while (true) {
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		pros::lcd::set_text(1, "Left speed: " + std::to_string(left));
@@ -23,38 +22,27 @@ void opcontrol() {
 		right_mtr = right;
 		forward_right_mtr2 = (right * -1);
 		// Reset button functions
-		arm = 0;
 		crane = 0;
-		spinner = 0;
+		pickerupper = 0;
 		pros::delay(20);
 
 		if (master.get_digital(DIGITAL_R1)) {
-			arm = 80;
-			pros::delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_R2)) {
-			arm = -80;
+			crane = 100;
 			pros::delay(20);
 		}
 
 		if (master.get_digital(DIGITAL_L1)) {
-			crane = 80;
+			crane = -100;
+			pros::delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_R2)) {
+			pickerupper = 100;
 			pros::delay(20);
 		}
 
 		if (master.get_digital(DIGITAL_L2)) {
-			crane = -80;
-			pros::delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_UP)) {
-			spinner = 127;
-			pros::delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_DOWN)) {
-			spinner = -127;
+			pickerupper = -100;
 			pros::delay(20);
 		}
 	}
