@@ -4,13 +4,12 @@ using namespace pros::literals;
 
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	auto left_mtr = 1_mtr;
-	auto forward_left_mtr = 2_mtr;
+	pros::Motor left_mtr(1);
+	pros::Motor forward_left_mtr(2);
 	pros::Motor right_mtr(3);
 	pros::Motor forward_right_mtr2(4);
 	pros::Motor crane(5);
-	pros::Motor crane2(6);
-	pros::Motor flipper(7);
+	pros::Motor flipper(6);
 
 	while (true) {
 		int left = (master.get_analog(ANALOG_LEFT_Y)) * 0.8;
@@ -25,19 +24,16 @@ void opcontrol() {
 		forward_right_mtr2 = (right * -1);
 		// Reset button functions
 		crane = 0;
-		crane2 = 0;
 		flipper = 0;
 		pros::delay(20);
 
 		if (master.get_digital(DIGITAL_R1)) {
 			crane = 100;
-		 	crane2 = -100;
 			pros::delay(20);
 		}
 
 		if (master.get_digital(DIGITAL_L1)) {
 			crane = -100;
-			crane2 = 100;
 			pros::delay(20);
 		}
 
