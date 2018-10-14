@@ -12,14 +12,14 @@ void opcontrol() {
 	pros::Motor flipper(6);
 
 	while (true) {
-		int left = (master.get_analog(ANALOG_LEFT_Y)) * 0.8;
+		int left = master.get_analog(ANALOG_LEFT_Y);
 		pros::lcd::set_text(1, "Left speed: " + std::to_string(left));
-		int right = (master.get_analog(ANALOG_RIGHT_Y)) * 0.8;
+		int right = master.get_analog(ANALOG_RIGHT_Y);
 		pros::lcd::set_text(2, "Right speed: " + std::to_string(right));
 
 		// Stick variables
 		left_mtr = left;
-		forward_left_mtr = (left * -1);
+		forward_left_mtr = left;
 		right_mtr = (right * -1);
 		forward_right_mtr2 = (right * -1);
 		// Reset button functions
@@ -27,23 +27,23 @@ void opcontrol() {
 		flipper = 0;
 		pros::delay(20);
 
-		if (master.get_digital(DIGITAL_R1)) {
+		if (master.get_digital(DIGITAL_R2)) {
 			crane = 100;
 			pros::delay(20);
 		}
 
-		if (master.get_digital(DIGITAL_L1)) {
+		if (master.get_digital(DIGITAL_L2)) {
 			crane = -100;
 			pros::delay(20);
 		}
 
-		if (master.get_digital(DIGITAL_R2)) {
-			flipper = 100;
+		if (master.get_digital(DIGITAL_R1)) {
+			flipper = 127;
 			pros::delay(20);
 		}
 
-		if (master.get_digital(DIGITAL_L2)) {
-			flipper = -100;
+		if (master.get_digital(DIGITAL_L1)) {
+			flipper = -127;
 			pros::delay(20);
 		}
 	}
