@@ -39,18 +39,19 @@ void opcontrol() {
 		pros::delay(20);
 
 		if (master.get_digital(DIGITAL_R2)) {
-			crane = 100;
+			crane = 110;
 			pros::delay(20);
 		}
 
 		if (master.get_digital(DIGITAL_L2)) {
-			crane = -100;
+			crane = -110;
 			pros::delay(20);
 		}
 
 		if (master.get_digital(DIGITAL_A)) {
 			launcher = 127;
 			launcher2 = -127;
+			printf("Actual velocity: %lf\n", launcher.get_actual_velocity());
 			pros::delay(20);
 		}
 
