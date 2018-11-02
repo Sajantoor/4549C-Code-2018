@@ -6,7 +6,7 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Motor left_mtr(9);
 pros::Motor forward_left_mtr(2);
 pros::Motor right_mtr(3);
-pros::Motor forward_right_mtr2(4);
+pros::Motor forward_right_mtr(4);
 pros::Motor crane(5);
 pros::Motor launcher(6);
 pros::Motor launcher2(7);
@@ -16,21 +16,43 @@ void opcontrol() {
 	while (true) {
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		pros::lcd::set_text(1, "Left speed: " + std::to_string(left));
-		int right = master.get_analog(ANALOG_RIGHT_Y);
+		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
 		pros::lcd::set_text(2, "Right speed: " + std::to_string(right));
 		// Stick variables
+		// Not inverted
 		if (inverted == 0) {
 			left_mtr = left;
 			forward_left_mtr = left;
-			right_mtr = (right * -1);
-			forward_right_mtr2 = (right * -1);
+			right_mtr = right;
+			forward_right_mtr = right;
 		}
 
 		if (inverted == 1) {
-			left_mtr = (left * -1);
-			forward_left_mtr = (left * -1);
-			right_mtr = right;
-			forward_right_mtr2 = right;
+			// Gets X position of the sticks
+			int leftX = master.get_analog(ANALOG_LEFT_X);
+			int rightX = master.get_analog(ANALOG_RIGHT_X);
+			// If the x position is greater than the Y position, then don't reverse
+			if (leftX < 0) {
+				leftX = (leftX * -1);
+			}
+
+			if (rightX < 0) {
+				rightX = (rightX * -1);
+			}
+
+			if (leftX < left) {
+				left_mtr = left;
+			} else {
+				left_mtr = (left * -1);
+			}
+
+			if (rightX < right) {
+				right_mtr = right;
+				forward_right_mtr = right;
+			} else {
+				right_mtr = (right * -1);
+				forward_right_mtr = (right * -1);
+			}
 		}
 		// Reset button functions
 		crane = 0;

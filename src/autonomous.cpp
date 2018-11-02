@@ -24,6 +24,7 @@ void autonomous() {
     int right = 127;
     int delay = 3000;
     moveMotors(left, right, delay);
+    autonomousMode = 1;
     pros::delay(20);
   }
 }
