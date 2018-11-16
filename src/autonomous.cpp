@@ -8,7 +8,7 @@ pros::Motor craneAuto(5);
 pros::Motor launcherAuto(6);
 pros::Motor launcher2Auto(7);
 
-int autonomousMode = 0;
+int autonomousMode = 1;
 
 void moveMotors(int left, int right, int delay) {
   left_mtrAuto = left;
@@ -16,7 +16,7 @@ void moveMotors(int left, int right, int delay) {
   right_mtrAuto = right;
   forward_right_mtrAuto = right;
   pros::delay(delay);
-  autonomousMode = 1;
+  autonomousMode = 2;
 }
 
 void autonomous() {
@@ -26,5 +26,14 @@ void autonomous() {
     int delay = 3000;
     moveMotors(left, right, delay);
     pros::delay(20);
+  }
+
+  // Testing if the motors themselves work
+  while (autonomousMode == 1) {
+    left_mtrAuto = 127;
+    forward_left_mtrAuto = 127;
+    right_mtrAuto = 127;
+    forward_right_mtrAuto = 127;
+    pros::delay(1000);
   }
 }
