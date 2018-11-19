@@ -1,6 +1,19 @@
 #include "main.h"
 
-void rotate() {
+void rotate(float deg) {
+  // The amount to move one degree while turning (in mileseoncs)
+  float degTime = 3.37;
+  float rotationTime = degTime * deg;
+
+  if (rotationTime < 0) {
+    left = 127;
+    right = -127;
+    delay(rotationTime);
+  } else {
+    left = -127;
+    right = 127;
+    delay(rotationTime); 
+  }
   // This function needs to rotate the bot a certain amount of degrees
   // Arguments needed is the degrees, using math we can figure out how much time that will take to turn that bot
   // If the degrees are negative, the left motor will be given power.
