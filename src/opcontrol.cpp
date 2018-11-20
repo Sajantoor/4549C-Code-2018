@@ -10,9 +10,6 @@ Motor crane(5);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(8);
-int inverted = 0;
-
-
 int autonomousMode = 1;
 
 void moveMotors(int left, int right, int delay) {
@@ -20,36 +17,26 @@ void moveMotors(int left, int right, int delay) {
   forward_left_mtr = left;
   right_mtr = right;
   forward_right_mtr = right;
-  pros::delay(delay);
-	pros::delay(1000);
+  delay(delay);
+	delay(1000);
   autonomousMode = 1;
 }
 
 void autonomousClick() {
   while (autonomousMode == 0) {
     int left = 127;
-    int right = -127;
+    int right = 127;
     int delay = 3000;
     moveMotors(left, right, delay);
-    pros::delay(20);
-  }
-
-  // Testing if the motors themselves work
-  while (autonomousMode == 1) {
-    left_mtr = 127;
-    forward_left_mtr = 127;
-    right_mtr = -127;
-    forward_right_mtr = -127;
-    pros::delay(1000);
+    delay(2000);
+    autonomousMode = 1
   }
 }
 
 void opcontrol() {
 	while (true) {
 		int left = (master.get_analog(ANALOG_LEFT_Y));
-		lcd::set_text(1, "Left speed: " + std::to_string(left));
 		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
-		lcd::set_text(2, "Right speed: " + std::to_string(right));
 		// Stick variables
 		left_mtr = left;
 		forward_left_mtr = left;
