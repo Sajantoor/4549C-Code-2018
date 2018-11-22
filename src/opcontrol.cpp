@@ -12,33 +12,40 @@ Motor launcher2(7);
 Motor intake(8);
 int autonomousMode = 1;
 
+void autonomousClick() {
+  moveMotors(3);
+}
+
 void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
   // To save 4 - 5 lines and make the code more efficient.
   left_mtr = left;
   forward_left_mtr = forLeft;
   right_mtr = right;
   forward_right_mtr = forRight;
-  pros::lcd::set_text(4, std::to_string(timeDelay));
   delay(timeDelay);
 }
 
 void rotate(float deg) {
   // Rotation uses a center point of rotation
-  // The amount to move one degree while turning (in mileseoncs)
+  // The amount to move one degree while turning (in milliseconds)
   float degTime = 2.95;
   float rotationTime = degTime * deg;
   // If the degrees are negative, the left motor will be given positive power.
   // If the degress are postive, the right motor will be given postive power.
   if (rotationTime > 0) {
     motors(127, 127, 127, 127, rotationTime);
+    // Cancels out deceleration
+    motors(-127, -127, -127, -127, rotationTime * 0.05);
   } else {
     rotationTime = (rotationTime * -1);
     motors(-127, -127, -127, -127, rotationTime);
+    // Cancels out deceleration
+    motors(127, 127, 127, 127, rotationTime * 0.05);
   }
 }
 
 void moveMotors(float squares) {
-  // Velocity is mileseconds to travel one square.
+  // Velocity is ms to travel one square.
   float velocity = 505.625;
   float movementTime = squares * velocity;
   // time can't be negative
@@ -48,15 +55,19 @@ void moveMotors(float squares) {
   // Forward and back movment with the appropriate time delay
   if (squares > 0) {
     motors(127, 127, -127, -127, movementTime);
-    motors(-127, -127, 127, 127, 80.0);
+    // Previously
+    // motors(-127, -127, 127, 127, movementTime * 0.05);
+
+    // Effectively cancels deceleration
+    motors(-127, -127, 127, 127, movementTime * 0.05);
   } else {
     motors(-127, -127, 127, 127, movementTime);
-    motors(127, 127, -127, -127, 80.0);
-  }
-}
+    // Previously
+    // motors(127, 127, -127, -127, 80);
 
-void autonomousClick() {
-  moveMotors(3);
+    // Effectively cancels deceleration
+    motors(127, 127, -127, -127, movementTime * 0.05);
+  }
 }
 
 void opcontrol() {
