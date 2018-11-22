@@ -1,4 +1,6 @@
 #include "main.h"
+using namespace pros::literals;
+
 // Motors
 pros::Motor left_mtrAuto(9);
 pros::Motor forward_left_mtrAuto(2);
@@ -20,6 +22,7 @@ pros::Motor launcher2Auto(7);
 // }
 //
 void autonomous() {
+  left_mtrAuto.move(100);
 //   while (autonomousMode == 0) {
 //     int left = -127;
 //     int right = 127;

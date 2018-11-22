@@ -55,14 +55,14 @@ void moveMotors(float squares) {
     // motors(-127, -127, 127, 127, movementTime * 0.05);
 
     // Effectively cancels deceleration
-    motors(-127, -127, 127, 127, movementTime * 0.15);
+    motors(-127, -127, 127, 127, movementTime * 0.1);
   } else {
     motors(-127, -127, 127, 127, movementTime);
     // Previously
     // motors(127, 127, -127, -127, 80);
 
     // Effectively cancels deceleration
-    motors(127, 127, -127, -127, movementTime * 0.15);
+    motors(127, 127, -127, -127, movementTime * 0.1);
   }
 }
 
@@ -75,6 +75,7 @@ void opcontrol() {
 		int left = (master.get_analog(ANALOG_LEFT_Y));
 		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
 		// Stick variables
+    //left_mtr.move(master.get_analog(ANALOG_LEFT_Y));
 		left_mtr = left;
 		forward_left_mtr = left;
 		right_mtr = right;
