@@ -11,11 +11,7 @@ Motor launcher(6);
 Motor launcher2(7);
 Motor intake(8);
 int autonomousMode = 1;
-
-void autonomousClick() {
-  moveMotors(3);
-}
-
+// Move the motors.
 void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
   // To save 4 - 5 lines and make the code more efficient.
   left_mtr = left;
@@ -28,19 +24,19 @@ void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
 void rotate(float deg) {
   // Rotation uses a center point of rotation
   // The amount to move one degree while turning (in milliseconds)
-  float degTime = 2.95;
+  float degTime = 3.8;
   float rotationTime = degTime * deg;
   // If the degrees are negative, the left motor will be given positive power.
   // If the degress are postive, the right motor will be given postive power.
   if (rotationTime > 0) {
     motors(127, 127, 127, 127, rotationTime);
     // Cancels out deceleration
-    motors(-127, -127, -127, -127, rotationTime * 0.05);
+    motors(-127, -127, -127, -127, rotationTime * 0.1);
   } else {
     rotationTime = (rotationTime * -1);
     motors(-127, -127, -127, -127, rotationTime);
     // Cancels out deceleration
-    motors(127, 127, 127, 127, rotationTime * 0.05);
+    motors(127, 127, 127, 127, rotationTime * 0.1);
   }
 }
 
@@ -59,15 +55,19 @@ void moveMotors(float squares) {
     // motors(-127, -127, 127, 127, movementTime * 0.05);
 
     // Effectively cancels deceleration
-    motors(-127, -127, 127, 127, movementTime * 0.05);
+    motors(-127, -127, 127, 127, movementTime * 0.15);
   } else {
     motors(-127, -127, 127, 127, movementTime);
     // Previously
     // motors(127, 127, -127, -127, 80);
 
     // Effectively cancels deceleration
-    motors(127, 127, -127, -127, movementTime * 0.05);
+    motors(127, 127, -127, -127, movementTime * 0.15);
   }
+}
+
+void autonomousClick() {
+  moveMotors(4);
 }
 
 void opcontrol() {
