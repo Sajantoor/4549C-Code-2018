@@ -14,11 +14,19 @@ int autonomousMode = 1;
 // Move the motors.
 void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
   // To save 4 - 5 lines and make the code more efficient.
-  left_mtr = left;
-  forward_left_mtr = forLeft;
-  right_mtr = right;
-  forward_right_mtr = forRight;
+//  left_mtr = left;
+//  forward_left_mtr = forLeft;
+//  right_mtr = right;
+//  forward_right_mtr = forRight;
+  left_mtr.move_voltage(left);
+  forward_left_mtr.move_voltage(forLeft);
+  right_mtr.move_voltage(right);
+  forward_right_mtr.move_voltage(forRight);
   delay(timeDelay);
+  left_mtr.move_voltage(0);
+  forward_left_mtr.move_voltage(0);
+  right_mtr.move_voltage(0);
+  forward_right_mtr.move_voltage(0);
 }
 
 void rotate(float deg) {
@@ -29,14 +37,14 @@ void rotate(float deg) {
   // If the degrees are negative, the left motor will be given positive power.
   // If the degress are postive, the right motor will be given postive power.
   if (rotationTime > 0) {
-    motors(127, 127, 127, 127, rotationTime);
+    motors(12000, 12000, 12000, 12000, rotationTime);
     // Cancels out deceleration
-    motors(-127, -127, -127, -127, rotationTime * 0.1);
+    motors(-12000, -12000, -12000, -12000, rotationTime * 0.1);
   } else {
     rotationTime = (rotationTime * -1);
-    motors(-127, -127, -127, -127, rotationTime);
+    motors(-12000, -12000, -12000, -12000, rotationTime);
     // Cancels out deceleration
-    motors(127, 127, 127, 127, rotationTime * 0.1);
+    motors(12000, 12000, 12000, 12000, rotationTime * 0.1);
   }
 }
 
@@ -50,19 +58,19 @@ void moveMotors(float squares) {
   }
   // Forward and back movment with the appropriate time delay
   if (squares > 0) {
-    motors(127, 127, -127, -127, movementTime);
+    motors(12000, 12000, -12000, -12000, movementTime);
     // Previously
     // motors(-127, -127, 127, 127, movementTime * 0.05);
 
     // Effectively cancels deceleration
-    motors(-127, -127, 127, 127, movementTime * 0.1);
+    motors(-12000, -12000, 12000, 12000, 151);
   } else {
-    motors(-127, -127, 127, 127, movementTime);
+    motors(-12000, -12000, 12000, 12000, movementTime);
     // Previously
     // motors(127, 127, -127, -127, 80);
 
     // Effectively cancels deceleration
-    motors(127, 127, -127, -127, movementTime * 0.1);
+    motors(12000, 12000, -12000, -12000, 151);
   }
 }
 
