@@ -32,19 +32,19 @@ void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
 void rotate(float deg) {
   // Rotation uses a center point of rotation
   // The amount to move one degree while turning (in milliseconds)
-  float degTime = 3.8;
+  float degTime = 4.3;
   float rotationTime = degTime * deg;
   // If the degrees are negative, the left motor will be given positive power.
   // If the degress are postive, the right motor will be given postive power.
   if (rotationTime > 0) {
     motors(12000, 12000, 12000, 12000, rotationTime);
     // Cancels out deceleration
-    motors(-12000, -12000, -12000, -12000, rotationTime * 0.1);
+    motors(-12000, -12000, -12000, -12000, 100);
   } else {
     rotationTime = (rotationTime * -1);
     motors(-12000, -12000, -12000, -12000, rotationTime);
     // Cancels out deceleration
-    motors(12000, 12000, 12000, 12000, rotationTime * 0.1);
+    motors(12000, 12000, 12000, 12000, 100);
   }
 }
 
@@ -63,19 +63,26 @@ void moveMotors(float squares) {
     // motors(-127, -127, 127, 127, movementTime * 0.05);
 
     // Effectively cancels deceleration
-    motors(-12000, -12000, 12000, 12000, 151);
+    motors(-12000, -12000, 12000, 12000, 100);
   } else {
     motors(-12000, -12000, 12000, 12000, movementTime);
     // Previously
     // motors(127, 127, -127, -127, 80);
 
     // Effectively cancels deceleration
-    motors(12000, 12000, -12000, -12000, 151);
+    motors(12000, 12000, -12000, -12000, 100);
   }
 }
 
 void autonomousClick() {
-  moveMotors(4);
+  // 165 is about 180 degrees
+  // 90 degrees is 95 degrees
+  moveMotors(2.3);
+  delay(20);
+  moveMotors(-1.5);
+  delay(20);
+  rotate(95);
+  // flip
 }
 
 void opcontrol() {
