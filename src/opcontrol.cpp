@@ -11,13 +11,23 @@ Motor launcher(6);
 Motor launcher2(7);
 Motor intake(8);
 int autonomousMode = 1;
+
+void flip(int val) {
+  // 1 represents on, crane is up.
+  if (val == 1) {
+    crane.move_voltage(12000);
+  //  x =  crane lift time
+  // delay(x);
+  }
+  // 0 represents off, crane is down.
+  if (val == 0) {
+    crane.move_voltage(-12000);
+    // x = crane drop time
+    // delay(x);
+  }
+}
 // Move the motors.
 void motors(int left, int forLeft, int right, int forRight, float timeDelay) {
-  // To save 4 - 5 lines and make the code more efficient.
-//  left_mtr = left;
-//  forward_left_mtr = forLeft;
-//  right_mtr = right;
-//  forward_right_mtr = forRight;
   left_mtr.move_voltage(left);
   forward_left_mtr.move_voltage(forLeft);
   right_mtr.move_voltage(right);
@@ -77,12 +87,81 @@ void moveMotors(float squares) {
 void autonomousClick() {
   // 165 is about 180 degrees
   // 90 degrees is 95 degrees
-  moveMotors(2.3);
-  delay(20);
-  moveMotors(-1.5);
-  delay(20);
-  rotate(95);
-  // flip
+
+  // 1 is skills time
+  if (autonomousMode == 1) {
+    moveMotors(2.3);
+    delay(20);
+    moveMotors(-1.5);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(1);
+    delay(20);
+    // flip first cone
+    // Flip function here
+    delay(20);
+    rotate(-95);
+    delay(20);
+    moveMotors(1);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(2.5);
+    delay(20);
+    rotate(-95);
+    delay(20);
+    moveMotors(1);
+    // hit second flag
+    delay(20);
+    moveMotors(-3);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(1); // or .5
+    // flip function here
+    // flip second cone
+    delay(20);
+    moveMotors(-1);
+    delay(20);
+    rotate(-95);
+    delay(20);
+    moveMotors(1);
+    delay(20);
+    rotate(-95);
+    delay(20);
+    moveMotors(3);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(4);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(2);
+    delay(20);
+    //flip cap here
+    // flip 3rd cone here
+    moveMotors(-2);
+    delay(20);
+    rotate(-95);
+    delay(20);
+    moveMotors(2);
+    rotate(95);
+    // infront of the platforms
+    moveMotors(4);
+    // my guess to get on the center plaform ^
+  }
+  // Basic autonmous, just hits the flag if all else fails
+  if (autonomousMode == 2) {
+    moveMotors(2.3);
+    delay(20);
+    moveMotors(-1.5);
+  }
+
+  if (autonomousMode == 3) {
+    // this is our competition run
+  }
 }
 
 void opcontrol() {
@@ -128,3 +207,8 @@ void opcontrol() {
 		}
 	}
 }
+
+// Fixes: Add a way to move diagonally
+// Flipping cones and moving at the same time.
+// Flipping caps speed
+// Shooter once shooter is built
