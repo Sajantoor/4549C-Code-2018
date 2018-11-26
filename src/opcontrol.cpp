@@ -10,7 +10,7 @@ Motor crane(5);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(8);
-int autonomousMode = 1;
+int autonomousMode = 3;
 
 void flip(int val) {
   // 1 represents on, crane is up.
@@ -160,7 +160,13 @@ void autonomousClick() {
   }
 
   if (autonomousMode == 3) {
-    // this is our competition run
+    moveMotors(2.4);
+    delay(20);
+    moveMotors(-3.0);
+    delay(20);
+    rotate(95);
+    delay(20);
+    moveMotors(6);
   }
 }
 
