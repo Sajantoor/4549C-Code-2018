@@ -6,24 +6,22 @@ Motor left_mtr(3);
 Motor forward_left_mtr(4);
 Motor right_mtr(9);
 Motor forward_right_mtr(2);
-Motor crane(5);
+Motor crane(13);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(8);
-int autonomousMode = 3;
+int autonomousMode = 0;
 
 void flip(int val) {
   // 1 represents on, crane is up.
   if (val == 1) {
     crane.move_voltage(12000);
-  //  x =  crane lift time
-  // delay(x);
+    delay(80);
   }
   // 0 represents off, crane is down.
   if (val == 0) {
     crane.move_voltage(-12000);
-    // x = crane drop time
-    // delay(x);
+    delay(66);
   }
 }
 // Move the motors.
@@ -60,7 +58,7 @@ void rotate(float deg) {
 
 void moveMotors(float squares) {
   // Velocity is ms to travel one square.
-  float velocity = 505.625;
+  float velocity = 503.625;
   float movementTime = squares * velocity;
   // time can't be negative
   if (movementTime < 0) {
@@ -85,87 +83,56 @@ void moveMotors(float squares) {
 }
 
 void autonomousClick() {
+  if (autonomousMode == 0) {
+    moveMotors(1);
+    delay(2000);
+    rotate(90);
+  }
   // 165 is about 180 degrees
   // 90 degrees is 95 degrees
 
   // 1 is skills time
+
   if (autonomousMode == 1) {
-    moveMotors(2.3);
-    delay(20);
-    moveMotors(-1.5);
-    delay(20);
-    rotate(95);
-    delay(20);
-    moveMotors(1);
-    delay(20);
-    // flip first cone
-    // Flip function here
-    delay(20);
-    rotate(-95);
-    delay(20);
-    moveMotors(1);
-    delay(20);
-    rotate(95);
-    delay(20);
     moveMotors(2.5);
-    delay(20);
-    rotate(-95);
-    delay(20);
-    moveMotors(1);
-    // hit second flag
-    delay(20);
-    moveMotors(-3);
-    delay(20);
-    rotate(95);
-    delay(20);
-    moveMotors(1); // or .5
-    // flip function here
-    // flip second cone
-    delay(20);
-    moveMotors(-1);
-    delay(20);
-    rotate(-95);
-    delay(20);
-    moveMotors(1);
-    delay(20);
-    rotate(-95);
-    delay(20);
-    moveMotors(3);
-    delay(20);
-    rotate(95);
-    delay(20);
-    moveMotors(4);
-    delay(20);
-    rotate(95);
-    delay(20);
-    moveMotors(2);
-    delay(20);
-    //flip cap here
-    // flip 3rd cone here
-    moveMotors(-2);
-    delay(20);
-    rotate(-95);
-    delay(20);
-    moveMotors(2);
-    rotate(95);
-    // infront of the platforms
-    moveMotors(4);
-    // my guess to get on the center plaform ^
-  }
-  // Basic autonmous, just hits the flag if all else fails
-  if (autonomousMode == 2) {
-    moveMotors(2.3);
-    delay(20);
+    delay(100);
     moveMotors(-1.5);
+    delay(100);
+    rotate(95);
+  }
+
+  if (autonomousMode == 2) {
+    moveMotors(.5);
+    delay(100);
+    flip(1);
+    delay(2000);
+    flip(0);
+    delay(100);
+    rotate(95);
   }
 
   if (autonomousMode == 3) {
-    moveMotors(2.4);
-    delay(20);
-    moveMotors(-3.0);
-    delay(20);
+    moveMotors(1);
+    delay(100);
+    rotate(-95);
+    moveMotors(1);
+    flip(1);
+    delay(2000);
+    flip(0);
+  }
+
+  if (autonomousMode == 4) {
+    moveMotors(-2);
+    delay(100);
+    rotate(-95);
+    delay(100);
+    moveMotors(-1);
+    delay(100);
     rotate(95);
-    delay(20);
+    delay(100);
+  }
+
+  if (autonomousMode == 5) {
     moveMotors(6);
   }
 }
@@ -198,8 +165,10 @@ void opcontrol() {
 		}
 
 		if (master.get_digital(DIGITAL_A)) {
-			launcher = 127;
-			launcher2 = -127;
+			 launcher = 127;
+		   launcher2 = -127;
+      // launcher.move_voltage(12000);
+      // launcher2.move_voltage(-12000);
 			delay(20);
 		}
 
@@ -210,6 +179,7 @@ void opcontrol() {
 
 		if (master.get_digital_new_press(DIGITAL_X)) {
 			autonomousClick();
+      autonomousMode++;
 		}
 	}
 }
