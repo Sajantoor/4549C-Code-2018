@@ -9,19 +9,27 @@ Motor forward_right_mtr(2);
 Motor crane(13);
 Motor launcher(6);
 Motor launcher2(7);
-Motor intake(8);
+Motor intake(14);
 int autonomousMode = 0;
 
 void flip(int val) {
   // 1 represents on, crane is up.
   if (val == 1) {
     crane.move_voltage(12000);
-    delay(80);
+    delay(200);
+    crane.move_voltage(0);
+  }
+  // flip cap value
+  if (val == 2) {
+    crane.move_voltage(12000);
+    delay(350);
+    crane.move_voltage(0);
   }
   // 0 represents off, crane is down.
   if (val == 0) {
     crane.move_voltage(-12000);
-    delay(66);
+    delay(70);
+    crane.move_voltage(0);
   }
 }
 // Move the motors.
@@ -83,42 +91,42 @@ void moveMotors(float squares) {
 }
 
 void autonomousClick() {
-  if (autonomousMode == 0) {
-    moveMotors(1);
-    delay(2000);
-    rotate(90);
-  }
   // 165 is about 180 degrees
   // 90 degrees is 95 degrees
 
   // 1 is skills time
 
   if (autonomousMode == 1) {
-    moveMotors(2.5);
+    flip(1);
+    pros::delay(1000);
+    moveMotors(2);
     delay(100);
     moveMotors(-1.5);
-    delay(100);
-    rotate(95);
+    flip(0);
   }
 
   if (autonomousMode == 2) {
-    moveMotors(.5);
-    delay(100);
-    flip(1);
-    delay(2000);
-    flip(0);
     delay(100);
     rotate(95);
+    delay(100);
+    moveMotors(.5);
   }
 
   if (autonomousMode == 3) {
+    delay(100);
+    flip(2);
+    delay(100);
+    moveMotors(-.25);
+    flip(0);
+    delay(100);
+  }
+
+  if (autonomousMode == 3) {
+    rotate(95);
     moveMotors(1);
     delay(100);
     rotate(-95);
-    moveMotors(1);
-    flip(1);
-    delay(2000);
-    flip(0);
+    moveMotors(2);
   }
 
   if (autonomousMode == 4) {
@@ -126,14 +134,17 @@ void autonomousClick() {
     delay(100);
     rotate(-95);
     delay(100);
+  }
+
+  if (autonomousMode == 5) {
     moveMotors(-1);
     delay(100);
     rotate(95);
     delay(100);
   }
 
-  if (autonomousMode == 5) {
-    moveMotors(6);
+  if (autonomousMode == 6) {
+    moveMotors(4);
   }
 }
 
@@ -164,7 +175,7 @@ void opcontrol() {
 			delay(20);
 		}
 
-		if (master.get_digital(DIGITAL_A)) {
+		if (master.get_digital(DIGITAL_L1)) {
 			 launcher = 127;
 		   launcher2 = -127;
       // launcher.move_voltage(12000);
@@ -172,7 +183,7 @@ void opcontrol() {
 			delay(20);
 		}
 
-		if (master.get_digital(DIGITAL_B)) {
+		if (master.get_digital(DIGITAL_R1)) {
 			intake = 127;
 			delay(20);
 		}
