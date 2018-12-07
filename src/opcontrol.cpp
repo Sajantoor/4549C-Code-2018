@@ -4,13 +4,13 @@ using namespace pros::literals;
 Controller master(CONTROLLER_MASTER);
 Motor left_mtr(3);
 Motor forward_left_mtr(4);
-Motor right_mtr(9);
+Motor right_mtr(8);
 Motor forward_right_mtr(2);
 Motor crane(13);
 Motor launcher(6);
 Motor launcher2(7);
-Motor intake(14);
-int autonomousMode = 0;
+Motor intake(5);
+int autonomousMode = 1;
 
 void flip(int val) {
   // 1 represents on, crane is up.
@@ -55,12 +55,12 @@ void rotate(float deg) {
   if (rotationTime > 0) {
     motors(12000, 12000, 12000, 12000, rotationTime);
     // Cancels out deceleration
-    motors(-12000, -12000, -12000, -12000, 100);
+    motors(-10000, -10000, -10000, -10000, 100);
   } else {
     rotationTime = (rotationTime * -1);
     motors(-12000, -12000, -12000, -12000, rotationTime);
     // Cancels out deceleration
-    motors(12000, 12000, 12000, 12000, 100);
+    motors(10000, 10000, 10000, 10000, 100);
   }
 }
 
@@ -75,18 +75,18 @@ void moveMotors(float squares) {
   // Forward and back movment with the appropriate time delay
   if (squares > 0) {
     motors(12000, 12000, -12000, -12000, movementTime);
+    delay(300);
     // Previously
     // motors(-127, -127, 127, 127, movementTime * 0.05);
-
     // Effectively cancels deceleration
-    motors(-12000, -12000, 12000, 12000, 100);
+    motors(-5000, -5000, 5000, 5000, 60);
   } else {
     motors(-12000, -12000, 12000, 12000, movementTime);
     // Previously
     // motors(127, 127, -127, -127, 80);
-
+    delay(300);
     // Effectively cancels deceleration
-    motors(12000, 12000, -12000, -12000, 100);
+    motors(5000, 5000, -5000, -5000, 60);
   }
 }
 
@@ -99,51 +99,62 @@ void autonomousClick() {
   if (autonomousMode == 1) {
     flip(1);
     pros::delay(1000);
-    moveMotors(2);
-    delay(100);
-    moveMotors(-1.5);
+    moveMotors(1.4);
+    delay(500);
+    moveMotors(-.5);
     flip(0);
+    delay(500);
+    autonomousMode++;
+    autonomousClick();
   }
 
   if (autonomousMode == 2) {
-    delay(100);
-    rotate(95);
-    delay(100);
-    moveMotors(.5);
+    rotate(75);
+    delay(500);
+    moveMotors(0.5);
+    delay(500);
+    autonomousMode++;
+    autonomousClick();
   }
 
   if (autonomousMode == 3) {
-    delay(100);
     flip(2);
     delay(100);
-    moveMotors(-.25);
+    moveMotors(-0.5);
+    delay(500);
     flip(0);
-    delay(100);
-  }
-
-  if (autonomousMode == 3) {
-    rotate(95);
-    moveMotors(1);
-    delay(100);
-    rotate(-95);
-    moveMotors(2);
+    autonomousMode++;
+    autonomousClick();
   }
 
   if (autonomousMode == 4) {
-    moveMotors(-2);
-    delay(100);
-    rotate(-95);
-    delay(100);
+    rotate(70);
+    delay(500);
+    moveMotors(0.8);
+    delay(500);
+    rotate(-80);
+    delay(500);
+    moveMotors(1.5);
+    autonomousMode++;
+    autonomousClick();
   }
 
   if (autonomousMode == 5) {
-    moveMotors(-1);
-    delay(100);
-    rotate(95);
-    delay(100);
+    moveMotors(-1.5);
+    delay(500);
+    rotate(80);
+    delay(500);
+    autonomousMode++;
+    autonomousClick();
   }
 
   if (autonomousMode == 6) {
+    moveMotors(1);
+    delay(500);
+    rotate(-80);
+    delay(500);
+    moveMotors(-1);
+    delay(500);
     moveMotors(4);
   }
 }
@@ -182,16 +193,48 @@ void opcontrol() {
       // launcher2.move_voltage(-12000);
 			delay(20);
 		}
-
-		if (master.get_digital(DIGITAL_R1)) {
-			intake = 127;
+      //Arda's design if needed remove
+		if (master.get_digital(DIGITAL_RIGHT)) {
+      left_mtr = 100;
+      forward_left_mtr = 100;
+      right_mtr = 100;
+      forward_right_mtr = 100;
 			delay(20);
 		}
 
-		if (master.get_digital_new_press(DIGITAL_X)) {
-			autonomousClick();
+  //Arda's design if needed remove
+  if (master.get_digital(DIGITAL_LEFT)) {
+    left_mtr = -100;
+    forward_left_mtr = -100;
+    right_mtr = -100;
+    forward_right_mtr = -100;
+    delay(20);
+  }
+
+    if (master.get_digital(DIGITAL_DOWN)) {
+			intake = -127;
+			delay(20);
+    }
+
+    if (master.get_digital(DIGITAL_R1)) {
+      intake = 127;
+      delay(20);
+    }
+
+  	if (master.get_digital_new_press(DIGITAL_X)) {
       autonomousMode++;
 		}
+
+    if (master.get_digital_new_press(DIGITAL_Y)) {
+      autonomousMode--;
+      if (autonomousMode > 0) {
+        autonomousMode = 0;
+      }
+    }
+
+    if (master.get_digital_new_press(DIGITAL_A)) {
+      autonomousClick();
+    }
 	}
 }
 
