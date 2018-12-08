@@ -102,7 +102,7 @@ void autonomousClick() {
     if (front == true) {
       if (autonomousMode == 1) {
         flip(1);
-        pros::delay(1000);
+        pros::delay(300);
         moveMotors(1.4);
         delay(500);
         moveMotors(-0.5);
@@ -135,15 +135,17 @@ void autonomousClick() {
       }
       // Turn to other cone and hit said cone
       if (autonomousMode == 4) {
-        rotate(90);
+        rotate(85);
         delay(500);
-        moveMotors(2);
+        moveMotors(1.95);
         delay(500);
         rotate(-90);
         delay(500);
-        moveMotors(-1);
-        delay(500);
-        moveMotors(3.5);
+        moveMotors(-1.25);
+        delay(200);
+        moveMotors(0.5);
+        delay(300);
+        moveMotors(2.25);
         autonomousMode++;
       }
       // Moves back and rotates
