@@ -12,7 +12,7 @@ Motor launcher2(7);
 Motor intake(5);
 int autonomousMode = 1;
 bool red = true;
-bool front = true;
+bool front = false;
 
 void flip(int val) {
   // 1 represents on, crane is up.
@@ -148,28 +148,34 @@ void autonomousClick() {
         moveMotors(2.25);
         autonomousMode++;
       }
-      // Moves back and rotates
-      // if (autonomousMode == 5) {
-      //   moveMotors(-1.5);
-      //   delay(500);
-      //   rotate(70);
-      //   delay(500);
-      //   autonomousMode++;
-      //   autonomousClick();
-      // }
-      //
-      // // Moves fowrard rotates and gets on the plaftorm
-      // if (autonomousMode == 6) {
-      //   moveMotors(1.35);
-      //   delay(500);
-      //   rotate(-85);
-      //   delay(500);
-      //   moveMotors(-0.5);
-      //   delay(500);
-      //   moveMotors(3);
+    }
+
+    if (front == false) {
+      if (autonomousMode == 1){
+        moveMotors(1.5);
+        delay(500);
+        flip(2);
+        delay(300);
+        moveMotors(-1);
+        delay(500);
+      }
+
+      if (autonomousMode == 2) {
+        rotate(75);
+        delay(500);
+        moveMotors(0.5);
+        delay(500);
+        rotate(-75);
+        delay(500);
+        moveMotors(1);
+        delay(500);
+        flip(0);
+        delay(600);
+        moveMotors(-1);
       }
     }
   }
+}
 
 void opcontrol() {
 	while (true) {
