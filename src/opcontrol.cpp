@@ -5,12 +5,14 @@ Controller master(CONTROLLER_MASTER);
 Motor left_mtr(3);
 Motor forward_left_mtr(4);
 Motor right_mtr(8);
-Motor forward_right_mtr(2);
+Motor forward_right_mtr(1);
 Motor crane(13);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(5);
 int autonomousMode = 1;
+bool red = true;
+bool front = true;
 
 void flip(int val) {
   // 1 represents on, crane is up.
@@ -95,69 +97,77 @@ void autonomousClick() {
   // 90 degrees is 95 degrees
 
   // 1 is skills time
-
-  if (autonomousMode == 1) {
-    flip(1);
-    pros::delay(1000);
-    moveMotors(1.4);
-    delay(500);
-    moveMotors(-.5);
-    flip(0);
-    delay(500);
-    autonomousMode++;
-    autonomousClick();
+  // Hit flag and move back
+  if (red == true) {
+    if (front == true) {
+      if (autonomousMode == 1) {
+        flip(1);
+        pros::delay(1000);
+        moveMotors(1.4);
+        delay(500);
+        moveMotors(-0.5);
+        flip(0);
+        delay(500);
+        autonomousMode++;
+        autonomousClick();
+      }
+      // Move forward infront of cone
+      if (autonomousMode == 2) {
+        rotate(70);
+        delay(500);
+        moveMotors(-0.25);
+        delay(500);
+        moveMotors(0.5);
+        delay(500);
+        autonomousMode++;
+        autonomousClick();
+      }
+      // Flip cone and move back
+      if (autonomousMode == 3) {
+        flip(2);
+        delay(100);
+        moveMotors(-1);
+        delay(500);
+        flip(0);
+        moveMotors(.25);
+        autonomousMode++;
+        autonomousClick();
+      }
+      // Turn to other cone and hit said cone
+      if (autonomousMode == 4) {
+        rotate(70);
+        delay(500);
+        moveMotors(2);
+        delay(500);
+        rotate(-70);
+        delay(500);
+        moveMotors(-1);
+        delay(500);
+        moveMotors(3);
+        autonomousMode++;
+      }
+      // Moves back and rotates
+      // if (autonomousMode == 5) {
+      //   moveMotors(-1.5);
+      //   delay(500);
+      //   rotate(70);
+      //   delay(500);
+      //   autonomousMode++;
+      //   autonomousClick();
+      // }
+      //
+      // // Moves fowrard rotates and gets on the plaftorm
+      // if (autonomousMode == 6) {
+      //   moveMotors(1.35);
+      //   delay(500);
+      //   rotate(-85);
+      //   delay(500);
+      //   moveMotors(-0.5);
+      //   delay(500);
+      //   moveMotors(3);
+      }
+    }
   }
-
-  if (autonomousMode == 2) {
-    rotate(75);
-    delay(500);
-    moveMotors(0.5);
-    delay(500);
-    autonomousMode++;
-    autonomousClick();
-  }
-
-  if (autonomousMode == 3) {
-    flip(2);
-    delay(100);
-    moveMotors(-0.5);
-    delay(500);
-    flip(0);
-    autonomousMode++;
-    autonomousClick();
-  }
-
-  if (autonomousMode == 4) {
-    rotate(70);
-    delay(500);
-    moveMotors(0.8);
-    delay(500);
-    rotate(-80);
-    delay(500);
-    moveMotors(1.5);
-    autonomousMode++;
-    autonomousClick();
-  }
-
-  if (autonomousMode == 5) {
-    moveMotors(-1.5);
-    delay(500);
-    rotate(80);
-    delay(500);
-    autonomousMode++;
-    autonomousClick();
-  }
-
-  if (autonomousMode == 6) {
-    moveMotors(1);
-    delay(500);
-    rotate(-80);
-    delay(500);
-    moveMotors(-1);
-    delay(500);
-    moveMotors(4);
-  }
-}
 
 void opcontrol() {
 	while (true) {
