@@ -1,6 +1,5 @@
 #include "main.h"
 using namespace pros::literals;
-
 Controller master(CONTROLLER_MASTER);
 Motor left_mtr(3);
 Motor forward_left_mtr(4);
@@ -12,8 +11,128 @@ Motor launcher2(7);
 Motor intake(5);
 int autonomousMode = 1;
 bool red = true;
-bool front = false;
+bool front = true;
 
+// initialize
+// if doesn't work move it to the "competition_initialize" function
+
+void redBlue() {
+	static bool pressed = false;
+	pressed = !pressed;
+	if (pressed) {
+		if (red) {
+			pros::lcd::set_text(1, "Blue");
+			red = false;
+		} else {
+			pros::lcd::set_text(1, "Red");
+			red = true;
+		}
+	}
+}
+
+void front_back() {
+	static bool pressed = false;
+	pressed = !pressed;
+	if (pressed) {
+		if (front) {
+			front = false;
+			pros::lcd::set_text(2, "back");
+		} else {
+			front = true;
+			pros::lcd::set_text(2, "front");
+		}
+	}
+}
+
+void initialize() {
+	red = true;
+	front = true;
+	pros::lcd::initialize();
+	pros::lcd::register_btn0_cb(redBlue);
+	pros::lcd::register_btn1_cb(front_back);
+}
+
+
+void disabled() {}
+
+/**
+ * Runs after initialize(), and before autonomous when connected to the Field
+ * Management System or the VEX Competition Switch. This is intended for
+ * competition-specific initialization routines, such as an autonomous selector
+ * on the LCD.
+ *
+ * This task will exit when the robot is enabled and autonomous or opcontrol
+ * starts.
+ */
+void competition_initialize() {}
+
+
+// Opcontrol
+void opcontrol() {
+	while (true) {
+		int left = (master.get_analog(ANALOG_LEFT_Y));
+		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
+		// Stick variables
+    //left_mtr.move(master.get_analog(ANALOG_LEFT_Y));
+		left_mtr = left;
+		forward_left_mtr = left;
+		right_mtr = right;
+		forward_right_mtr = right;
+		// Reset button functions
+		crane = 0;
+		launcher = 0;
+		launcher2 = 0;
+		intake = 0;
+		delay(20);
+
+		if (master.get_digital(DIGITAL_R2)) {
+			crane = 110;
+			delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_L2)) {
+			crane = -110;
+			delay(20);
+		}
+
+		if (master.get_digital(DIGITAL_L1)) {
+			 launcher = 127;
+		   launcher2 = -127;
+      // launcher.move_voltage(12000);
+      // launcher2.move_voltage(-12000);
+			delay(20);
+		}
+      //Arda's design if needed remove
+		if (master.get_digital(DIGITAL_RIGHT)) {
+      left_mtr = 100;
+      forward_left_mtr = 100;
+      right_mtr = 100;
+      forward_right_mtr = 100;
+			delay(20);
+		}
+
+  //Arda's design if needed remove
+    if (master.get_digital(DIGITAL_LEFT)) {
+      left_mtr = -100;
+      forward_left_mtr = -100;
+      right_mtr = -100;
+      forward_right_mtr = -100;
+      delay(20);
+    }
+
+    if (master.get_digital(DIGITAL_DOWN)) {
+			intake = -127;
+			delay(20);
+    }
+
+    if (master.get_digital(DIGITAL_R1)) {
+      intake = 127;
+      delay(20);
+    }
+	}
+}
+
+// autonomous
 void flip(int val) {
   // 1 represents on, crane is up.
   if (val == 1) {
@@ -92,7 +211,7 @@ void moveMotors(float squares) {
   }
 }
 
-void autonomousClick() {
+void autonomous() {
   // 165 is about 180 degrees
   // 90 degrees is 95 degrees
 
@@ -109,7 +228,7 @@ void autonomousClick() {
         flip(0);
         delay(300);
         autonomousMode++;
-        autonomousClick();
+        autonomous();
       }
       // Move forward infront of cone
       if (autonomousMode == 2) {
@@ -120,7 +239,7 @@ void autonomousClick() {
         moveMotors(0.5);
         delay(500);
         autonomousMode++;
-        autonomousClick();
+        autonomous();
       }
       // Flip cone and move back
       if (autonomousMode == 3) {
@@ -131,7 +250,7 @@ void autonomousClick() {
         flip(0);
         moveMotors(.25);
         autonomousMode++;
-        autonomousClick();
+        autonomous();
       }
       // Turn to other cone and hit said cone
       if (autonomousMode == 4) {
@@ -158,6 +277,8 @@ void autonomousClick() {
         delay(300);
         moveMotors(-1);
         delay(500);
+        autonomousMode++;
+        autonomous();
       }
 
       if (autonomousMode == 2) {
@@ -172,91 +293,8 @@ void autonomousClick() {
         flip(0);
         delay(600);
         moveMotors(-1);
+        autonomousMode++;
       }
     }
   }
 }
-
-void opcontrol() {
-	while (true) {
-		int left = (master.get_analog(ANALOG_LEFT_Y));
-		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
-		// Stick variables
-    //left_mtr.move(master.get_analog(ANALOG_LEFT_Y));
-		left_mtr = left;
-		forward_left_mtr = left;
-		right_mtr = right;
-		forward_right_mtr = right;
-		// Reset button functions
-		crane = 0;
-		launcher = 0;
-		launcher2 = 0;
-		intake = 0;
-		delay(20);
-
-		if (master.get_digital(DIGITAL_R2)) {
-			crane = 110;
-			delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_L2)) {
-			crane = -110;
-			delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_L1)) {
-			 launcher = 127;
-		   launcher2 = -127;
-      // launcher.move_voltage(12000);
-      // launcher2.move_voltage(-12000);
-			delay(20);
-		}
-      //Arda's design if needed remove
-		if (master.get_digital(DIGITAL_RIGHT)) {
-      left_mtr = 100;
-      forward_left_mtr = 100;
-      right_mtr = 100;
-      forward_right_mtr = 100;
-			delay(20);
-		}
-
-  //Arda's design if needed remove
-  if (master.get_digital(DIGITAL_LEFT)) {
-    left_mtr = -100;
-    forward_left_mtr = -100;
-    right_mtr = -100;
-    forward_right_mtr = -100;
-    delay(20);
-  }
-
-    if (master.get_digital(DIGITAL_DOWN)) {
-			intake = -127;
-			delay(20);
-    }
-
-    if (master.get_digital(DIGITAL_R1)) {
-      intake = 127;
-      delay(20);
-    }
-
-  	if (master.get_digital_new_press(DIGITAL_X)) {
-      autonomousMode++;
-		}
-
-    if (master.get_digital_new_press(DIGITAL_Y)) {
-      autonomousMode--;
-      if (autonomousMode > 0) {
-        autonomousMode = 0;
-      }
-    }
-
-    if (master.get_digital_new_press(DIGITAL_A)) {
-      autonomousClick();
-    }
-	}
-}
-
-// Fixes: Add a way to move diagonally
-// Flipping cones and moving at the same time.
-// Flipping caps speed
-// Shooter once shooter is built
