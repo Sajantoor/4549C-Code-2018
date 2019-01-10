@@ -53,6 +53,7 @@ using namespace pros;
 
 extern bool red;
 extern bool front;
+extern int autonomousMode;
 // using namespace okapi;
 
 /**

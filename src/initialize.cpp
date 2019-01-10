@@ -1,14 +1,5 @@
 #include "main.h"
 using namespace pros::literals;
-
-auto left_mtr = 3;
-auto forward_left_mtr = 4;
-auto right_mtr = 8;
-auto forward_right_mtr = 1;
-auto crane = 13;
-auto launcher = 6;
-auto launcher2 = 7;
-auto intake = 5;
 int autonomousMode = 1;
 bool red = true;
 bool front = true;

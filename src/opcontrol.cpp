@@ -1,6 +1,14 @@
 #include "main.h"
 using namespace pros::literals;
 Controller master(CONTROLLER_MASTER);
+Motor left_mtr(3);
+Motor forward_left_mtr(4);
+Motor right_mtr(8);
+Motor forward_right_mtr(1);
+Motor crane(13);
+Motor launcher(6);
+Motor launcher2(7);
+Motor intake(15);
 
 // Opcontrol
 void opcontrol() {
