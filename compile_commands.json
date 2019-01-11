@@ -133,11 +133,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+            "bin/initialize.cpp.o",
+            "src\\initialize.cpp"
         ],
         "directory": "H:\\Documents\\Coding\\PROS-Robotics",
-        "file": "src\\opcontrol.cpp"
+        "file": "src\\initialize.cpp"
     },
     {
         "arguments": [
@@ -168,11 +168,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/initialize.cpp.o",
-            "src\\initialize.cpp"
+            "bin/opcontrol.cpp.o",
+            "src\\opcontrol.cpp"
         ],
         "directory": "H:\\Documents\\Coding\\PROS-Robotics",
-        "file": "src\\initialize.cpp"
+        "file": "src\\opcontrol.cpp"
     },
     {
         "arguments": [

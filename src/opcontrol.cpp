@@ -41,8 +41,6 @@ void opcontrol() {
 		if (master.get_digital(DIGITAL_L1)) {
 			 launcher = 127;
 		   launcher2 = -127;
-      // launcher.move_voltage(12000);
-      // launcher2.move_voltage(-12000);
 			delay(20);
 		}
       //Arda's design if needed remove
@@ -72,5 +70,10 @@ void opcontrol() {
       intake = 127;
       delay(20);
     }
+
+		if (master.get_digital_new_press(DIGITAL_X)) {
+			autonomous();
+			delay(20);
+		}
 	}
 }
