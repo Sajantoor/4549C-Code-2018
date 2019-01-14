@@ -3,7 +3,7 @@ using namespace pros::literals;
 Motor left_mtrAuto(3);
 Motor forward_left_mtrAuto(4);
 Motor right_mtrAuto(8);
-Motor forward_right_mtrAuto(1);
+Motor forward_right_mtrAuto(18);
 Motor craneAuto(13);
 Motor launcherAuto(6);
 Motor launcher2Auto(7);
