@@ -8,6 +8,7 @@ Motor craneAuto(13);
 Motor launcherAuto(6);
 Motor launcher2Auto(7);
 Motor intakeAuto(15);
+
 int posLeft = 0;
 int posForLeft = 0;
 int posRight = 0;
@@ -33,54 +34,71 @@ void flip(int val) {
     craneAuto.move_voltage(0);
   }
 }
-// Move the motors.
-void motors(int left, int forLeft, int right, int forRight, int velocityLeft, int velocityRight) {
-  left_mtrAuto.move_relative(left, velocityLeft);
-  forward_left_mtrAuto.move_relative(forLeft, velocityLeft);
-  right_mtrAuto.move_relative(right, velocityRight);
-  forward_right_mtrAuto.move_relative(forRight, velocityRight);
 
-  // calculating new positions
-  posLeft = posLeft + left;
-  posForLeft = posForLeft + forLeft;
-  posRight = posRight + forRight;
-  posForRight = posForRight + forRight;
-
-  while (!((left_mtrAuto.get_position() < (posLeft + 5)) && (left_mtrAuto.get_position() > (posLeft - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((forward_left_mtrAuto.get_position() < (posForLeft + 5)) && (forward_left_mtrAuto.get_position() > (posForLeft - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((right_mtrAuto.get_position() < (posRight + 5)) && (right_mtrAuto.get_position() > (posRight - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((forward_right_mtrAuto.get_position() < (posForRight + 5)) && (forward_right_mtrAuto.get_position() > (posForRight - 5)))) {
-    pros::delay(2);
-  }
-
-  // gets position for the next use of this function
+void calculatePosition() {
   posLeft = left_mtrAuto.get_position();
   posForLeft = forward_left_mtrAuto.get_position();
   posRight = right_mtrAuto.get_position();
   posForRight = forward_right_mtrAuto.get_position();
 }
 
-void rotate(float deg) {
+// Move the motors.
+void motors(int left, int forLeft, int right, int forRight, int velocityLeft, int velocityRight) {
+  posLeft = left;
+  posForLeft = forLeft;
+  posRight = right;
+  posForRight = forRight;
 
-}
+  left_mtrAuto.move_relative(posLeft, velocityLeft);
+  while (!((left_mtrAuto.get_position() < (posLeft + 5)) && (left_mtrAuto.get_position() > (posLeft - 5)))) {
+    pros::delay(2);
+  }
 
-void turn(float deg, float squares) {
+  forward_left_mtrAuto.move_relative(posForLeft, velocityLeft);
+  while (!((forward_left_mtrAuto.get_position() < (posForLeft + 5)) && (forward_left_mtrAuto.get_position() > (posForLeft - 5)))) {
+    pros::delay(2);
+  }
 
+  right_mtrAuto.move_relative(posRight, velocityRight);
+  while (!((right_mtrAuto.get_position() < (posRight + 5)) && (right_mtrAuto.get_position() > (posRight - 5)))) {
+    pros::delay(2);
+  }
+
+  forward_right_mtrAuto.move_relative(posForRight, velocityRight);
+  while (!((forward_right_mtrAuto.get_position() < (forRight + 5)) && (forward_right_mtrAuto.get_position() > (forRight - 5)))) {
+    pros::delay(2);
+  }
+
+  // PLAN A: may or may not work depending on how the while loops above work, since the loop they may run the entire function maybe idk, pros is weird and
+  // other plans are accounting for that
+
+  // gets position for the next use of this function
+  posLeft = left_mtrAuto.get_position();
+  posForLeft = forward_left_mtrAuto.get_position();
+  posRight = right_mtrAuto.get_position();
+  posForRight = forward_right_mtrAuto.get_position();
+
+  // comment this while loop if this doesn't work and it'll work with the comment in the autonomous function
+  /* PLAN B
+  while (
+    ((left_mtrAuto.get_position() < (left + 5)) && (left_mtrAuto.get_position() > (left - 5)) &&
+    (forward_left_mtrAuto.get_position() < (forLeft + 5)) && (forward_left_mtrAuto.get_position() > (forLeft - 5)) &&
+    forward_right_mtrAuto.get_position() < (forRight + 5)) && (forward_right_mtrAuto.get_position() > (forRight - 5)) &&
+    (right_mtrAuto.get_position() < (right + 5)) && (right_mtrAuto.get_position() > (right - 5))
+  )
+  {
+    printf("Arrived at destination");
+    calculatePosition();
+  }  */
 }
 
 void autonomous() {
   if (red == true) {
     if (front == true) {
+      // PLAN C:
+      // if this doesn't work, you can just switch it up so the next function is motors(2000...) and it'll run the same as 1000 since it's using the postion from before,
       motors(1000, 1000, -1000, -1000, 1000, -1000);
+      // if this does work then the inputed value just adds on to the existing position which is much more intuitive
       delay(20);
     }
   }
