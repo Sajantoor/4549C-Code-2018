@@ -37,40 +37,64 @@ void flip(int val) {
 
 // Move the motors.
 void motors(int left, int forLeft, int right, int forRight, int velocityLeft, int velocityRight) {
-  posLeft = posLeft + left;
-  posForLeft = posForLeft + forLeft;
-  posRight = posRight + right;
-  posForRight = posForRight + forRight;
+  int posLeft = left;
+  int posForLeft = forLeft;
+  int posRight = right;
+  int posForRight = forRight;
 
   left_mtrAuto.move_relative(posLeft, velocityLeft);
   forward_left_mtrAuto.move_relative(posForLeft, velocityLeft);
   right_mtrAuto.move_relative(posRight, velocityRight);
   forward_right_mtrAuto.move_relative(posForRight, velocityRight);
 
-  while (!((left_mtrAuto.get_position() < (posLeft + 5)) && (left_mtrAuto.get_position() > (posLeft - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((forward_left_mtrAuto.get_position() < (posForLeft + 5)) && (forward_left_mtrAuto.get_position() > (posForLeft - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((right_mtrAuto.get_position() < (posRight + 5)) && (right_mtrAuto.get_position() > (posRight - 5)))) {
-    pros::delay(2);
-  }
-
-  while (!((forward_right_mtrAuto.get_position() < (posForRight + 5)) && (forward_right_mtrAuto.get_position() > (posForRight - 5)))) {
-    pros::delay(2);
-  }
+  // if (posLeft > 0) {
+  //   while (!((left_mtrAuto.get_position() < (posLeft + 5)) && (left_mtrAuto.get_position() > (posLeft - 5)))) {
+  //     pros::delay(2);
+  //   }
+  // } else {
+  //   while (!((left_mtrAuto.get_position() < (posLeft - 5)) && (left_mtrAuto.get_position() > (posLeft + 5)))) {
+  //     pros::delay(2);
+  //   }
+  // }
+  //
+  // if (posForLeft > 0) {
+  //   while (!((forward_left_mtrAuto.get_position() < (posForLeft + 5)) && (forward_left_mtrAuto.get_position() > (posForLeft - 5)))) {
+  //     pros::delay(2);
+  //   }
+  // } else {
+  //   while (!((forward_left_mtrAuto.get_position() < (posForLeft - 5)) && (forward_left_mtrAuto.get_position() > (posForLeft + 5)))) {
+  //     pros::delay(2);
+  //   }
+  // }
+  //
+  // if (posRight > 0) {
+  //   while (!((right_mtrAuto.get_position() < (posRight + 5)) && (right_mtrAuto.get_position() > (posRight - 5)))) {
+  //     pros::delay(2);
+  //   }
+  // } else {
+  //   while (!((right_mtrAuto.get_position() < (posRight - 5)) && (right_mtrAuto.get_position() > (posRight + 5)))) {
+  //     pros::delay(2);
+  //   }
+  // }
+  //
+  // if (posForRight > 0) {
+  //   while (!((forward_right_mtrAuto.get_position() < (posForRight + 5)) && (forward_right_mtrAuto.get_position() > (posForRight - 5)))) {
+  //     pros::delay(2);
+  //   }
+  // } else {
+  //   while (!((forward_right_mtrAuto.get_position() < (posForRight - 5)) && (forward_right_mtrAuto.get_position() > (posForRight + 5)))) {
+  //     pros::delay(2);
+  //   }
+  // }
 
   // PLAN A: may or may not work depending on how the while loops above work, since the loop they may run the entire function maybe idk, pros is weird and
   // other plans are accounting for that
 
   // // gets position for the next use of this function
-  posLeft = left_mtrAuto.get_position();
-  posForLeft = forward_left_mtrAuto.get_position();
-  posRight = right_mtrAuto.get_position();
-  posForRight = forward_right_mtrAuto.get_position();
+  // posLeft = left_mtrAuto.get_position();
+  // posForLeft = forward_left_mtrAuto.get_position();
+  // posRight = right_mtrAuto.get_position();
+  // posForRight = forward_right_mtrAuto.get_position();
 
   // comment this while loop if this doesn't work and it'll work with the comment in the autonomous function
   // PLAN B
@@ -94,68 +118,71 @@ void autonomous() {
       // 1800 is one square
       // 90 degs is 1500
       // 800 is 45 degs
-
+      //
       // flag and first cone
       flip(1);
-      motors(5400, 5400, -5400, -5400, 1000, 1000); // move towards bottom flag
-      delay(20);
+      motors(3000, 3000, -3000, -3000, 150, 150); // move towards bottom flag
+      delay(2000);
       flip(0);
-      motors(-4500, -4500, 4500, 4500, 1000, 1000); // move back towards the cone
-      delay(20);
-      motors(800, 800, 800, 800, 1000, 1000); // 45 degree rotation towards the cone
-      delay(20);
-      motors(1800, 1800, -1800, -1800, 1000, 1000); // move towards the cone
-      delay(20);
+      motors(-1200, -1200, 1200, 1200, 150, 150); // move back towards the cone
+      delay(2000);
+      motors(750, 750, 750, 750, 150, 150); // 45 degree rotation towards the cone
+      delay(2000);
+      motors(1800, 1800, -1800, -1800, 150, 150); // move towards the cone
+      delay(2000);
       flip(2); // flips the cone
-      delay(1000);
-      motors(-1800, -1800, 1800, 1800, 1000, 1000); // move back from the cone
+      delay(2000);
+      motors(-1800, -1800, 1800, 1800, 150, 150); // move back from the cone
       flip(0); // moves arm back to normal position
-      delay(20);
+      delay(2000);
 
       // second cone
-      motors(800, 800, 800, 800, 1000, 1000); // rotate 45 degrees
-      delay(20);
-      motors(1800, 1800, -1800, -1800, 1000, 1000); // lines up with the cone
-      delay(20);
-      motors(-800, -800, -800, -800, 1000, 1000); // rotate -45 degrees facing the cone
-      delay(20);
-      motors(3600, 3600, -3600, -3600, 1000, 1000); // move towards the cone and hits it
+      motors(750, 750, 750, 750, 150, 150); // rotate 45 degrees
+      delay(2000);
+      motors(1800, 1800, -1800, -1800, 150, 150); // lines up with the cone
+      delay(2000);
+      motors(-750, -750, -750, -750, 150, 150); // rotate -45 degrees facing the cone
+      delay(2000);
+      motors(4800, 4800, -4800, -4800, 150, 150); // move towards the cone and hits it
+      delay(2000);
 
-      // 3rd and 4th cone on the other side
-      motors(-3600, -3600, 3600, 3600, 1000, 1000); // moves away from the cone
-      delay(20);
-      motors(800, 800, 800, 800, 1000, 1000); // rotates 45 degrees
-      delay(20);
-      motors(5400, 5400, -5400, -5400, 1000, 1000); // moves forward towards the last cone
-      delay(20);
-      motors(-800, -800, -800, -800, 1000, 1000); // rotates -45 degrees
-      delay(20);
-      motors(3600, 3600, -3600, -3600, 1000, 1000); // moves towards the last red cone
+      // // 3rd and 4th cone on the other side
+      motors(-4800, -4800, 4800, 4800, 150, 150); // moves away from the cone
+      delay(2000);
+
+      motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees
+      delay(2000);
+      motors(5400, 5400, -5400, -5400, 150, 150); // moves forward towards the last cone
+      delay(2000);
+      motors(-750, -750, -750, -750, 150, 150); // rotates -45 degrees
+      delay(2000);
+      motors(3600, 3600, -3600, -3600, 150, 150); // moves towards the last red cone
+      delay(2000);
       flip(2); // flips cone
-      delay(1000);
-      motors(-1800, -1800, 1800, 1800, 1000, 1000); // moves away from the cone
+      delay(2000);
+      motors(-1800, -1800, 1800, 1800, 150, 150); // moves away from the cone
       flip(0);
-      delay(20);
-      motors(-800, -800, -800, -800, 1000, 1000); // rotates -45 facing up
-      delay(20);
-      motors(1800, 1800, -1800, -1800, 1000, 1000); // move one square up
-      delay(20);
-      motors(800, 800, 800, 800, 1000, 1000); // rotates 45 degrees facing target cone
-      delay(20);
-      motors(1800, 1800, -1800, -1800, 1000, 1000); // knocks over cone
+      delay(2000);
+      motors(-750, -750, -750, -750, 150, 150); // rotates -45 facing up
+      delay(2000);
+      motors(1800, 1800, -1800, -1800, 150, 150); // move one square up
+      delay(2000);
+      motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees facing target cone
+      delay(2000);
+      motors(1800, 1800, -1800, -1800, 150, 150); // knocks over cone
 
-      // park attempt
-      motors(-3600, -3600, 3600, 3600, 1000, 1000);
-      delay(20);
-      motors(-800, -800, -800, -800, 1000, 1000); // rotate -45 degrees
-      delay(20);
-      motors(1800, 1800, -1800, -1800, 1000, 1000);
-      delay(20);
-      motors(800, 800, 800, 800, 1000, 1000);
-      delay(20);
-      // park itself
-      motors(3600, 3600, -3600, -3600, 1000, 1000);
-      delay(20);
+      // // park attempt
+      // motors(-3600, -3600, 3600, 3600, 1000, 1000);
+      // delay(20);
+      // motors(-800, -800, -800, -800, 1000, 1000); // rotate -45 degrees
+      // delay(20);
+      // motors(1800, 1800, -1800, -1800, 1000, 1000);
+      // delay(20);
+      // motors(800, 800, 800, 800, 1000, 1000);
+      // delay(20);
+      // // park itself
+      // motors(3600, 3600, -3600, -3600, 1000, 1000);
+      // delay(20);
     }
   }
 }
