@@ -110,66 +110,85 @@ void motors(int left, int forLeft, int right, int forRight, int velocityLeft, in
   // }
 }
 
+void shoot() {
+  launcherAuto = 110;
+  launcher2Auto = -110;
+  delay(4000);
+  launcherAuto = 0;
+  launcher2Auto = 0;
+  delay(20);
+}
+
+void intake() {
+  intakeAuto = 127;
+  delay(2000);
+  intakeAuto = 0;
+}
+
 void autonomous() {
   if (red == true) {
     if (front == true) {
       // PLAN C:
       // if this doesn't work, you can just switch it up so the next function is motors(2000...) and it'll run the same as 1000 since it's using the postion from before,
       // 1800 is one square
-      // 90 degs is 1500
-      // 800 is 45 degs
+      // 180 degs is 1500
+      // 800 is 90 degs
       //
       // flag and first cone
-      flip(1);
-      motors(3000, 3000, -3000, -3000, 150, 150); // move towards bottom flag
+      shoot();
       delay(2000);
-      flip(0);
-      motors(-1200, -1200, 1200, 1200, 150, 150); // move back towards the cone
+      intake();
       delay(2000);
-      motors(750, 750, 750, 750, 150, 150); // 45 degree rotation towards the cone
+      motors(1500, 1500, 1500, 1500, 250, 250);
       delay(2000);
-      motors(1800, 1800, -1800, -1800, 150, 150); // move towards the cone
+      motors(3600, 3600, -3600, -3600, 250, 250); // move towards bottom flag
       delay(2000);
-      flip(2); // flips the cone
+      motors(-5400, -5400, 5400, 5400, 250, 250); // move back towards the cone
       delay(2000);
-      motors(-1800, -1800, 1800, 1800, 150, 150); // move back from the cone
-      flip(0); // moves arm back to normal position
+      motors(800, 800, 800, 800, 250, 250); // 45 degree rotation towards the cone
       delay(2000);
+      motors(7500, 7500, -7500, -7500, 250, 250); // move towards the cone
+      delay(10000);
+      // flip(2); // flips the cone
+      // delay(2000);
+      // motors(-1800, -1800, 1800, 1800, 150, 150); // move back from the cone
+      // flip(0); // moves arm back to normal position
+      // delay(2000);
+      //
+      // // second cone
+      // motors(750, 750, 750, 750, 150, 150); // rotate 45 degrees
+      // delay(2000);
+      // motors(1800, 1800, -1800, -1800, 150, 150); // lines up with the cone
+      // delay(2000);
+      // motors(-750, -750, -750, -750, 150, 150); // rotate -45 degrees facing the cone
+      // delay(2000);
+      // motors(4200, 4200, -4200, -4200, 150, 150); // move towards the cone and hits it
+      // delay(2000);
+      //
+      // // // 3rd and 4th cone on the other side
+      // motors(-4200, -4200, 4200, 4200, 150, 150); // moves away from the cone
+      // delay(2000);
 
-      // second cone
-      motors(750, 750, 750, 750, 150, 150); // rotate 45 degrees
-      delay(2000);
-      motors(1800, 1800, -1800, -1800, 150, 150); // lines up with the cone
-      delay(2000);
-      motors(-750, -750, -750, -750, 150, 150); // rotate -45 degrees facing the cone
-      delay(2000);
-      motors(4800, 4800, -4800, -4800, 150, 150); // move towards the cone and hits it
-      delay(2000);
-
-      // // 3rd and 4th cone on the other side
-      motors(-4800, -4800, 4800, 4800, 150, 150); // moves away from the cone
-      delay(2000);
-
-      motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees
-      delay(2000);
-      motors(5400, 5400, -5400, -5400, 150, 150); // moves forward towards the last cone
-      delay(2000);
-      motors(-750, -750, -750, -750, 150, 150); // rotates -45 degrees
-      delay(2000);
-      motors(3600, 3600, -3600, -3600, 150, 150); // moves towards the last red cone
-      delay(2000);
-      flip(2); // flips cone
-      delay(2000);
-      motors(-1800, -1800, 1800, 1800, 150, 150); // moves away from the cone
-      flip(0);
-      delay(2000);
-      motors(-750, -750, -750, -750, 150, 150); // rotates -45 facing up
-      delay(2000);
-      motors(1800, 1800, -1800, -1800, 150, 150); // move one square up
-      delay(2000);
-      motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees facing target cone
-      delay(2000);
-      motors(1800, 1800, -1800, -1800, 150, 150); // knocks over cone
+      // motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees
+      // delay(2000);
+      // motors(5400, 5400, -5400, -5400, 150, 150); // moves forward towards the last cone
+      // delay(2000);
+      // motors(-750, -750, -750, -750, 150, 150); // rotates -45 degrees
+      // delay(2000);
+      // motors(3600, 3600, -3600, -3600, 150, 150); // moves towards the last red cone
+      // delay(2000);
+      // flip(2); // flips cone
+      // delay(2000);
+      // motors(-1800, -1800, 1800, 1800, 150, 150); // moves away from the cone
+      // flip(0);
+      // delay(2000);
+      // motors(-750, -750, -750, -750, 150, 150); // rotates -45 facing up
+      // delay(2000);
+      // motors(1800, 1800, -1800, -1800, 150, 150); // move one square up
+      // delay(2000);
+      // motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees facing target cone
+      // delay(2000);
+      // motors(1800, 1800, -1800, -1800, 150, 150); // knocks over cone
 
       // // park attempt
       // motors(-3600, -3600, 3600, 3600, 1000, 1000);

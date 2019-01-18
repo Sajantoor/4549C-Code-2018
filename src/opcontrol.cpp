@@ -10,6 +10,7 @@ Motor launcher(6);
 Motor launcher2(7);
 Motor intake(15);
 
+
 // Opcontrol
 void opcontrol() {
 	while (true) {
@@ -39,11 +40,11 @@ void opcontrol() {
 		}
 
 		if (master.get_digital(DIGITAL_L1)) {
-			 launcher = 127;
-		   launcher2 = -127;
+			launcher = 127;
+		  launcher2 = -127;
 			delay(20);
 		}
-      //Arda's design if needed remove
+      //Arda's design if needed remove (Rotate Right)
 		if (master.get_digital(DIGITAL_RIGHT)) {
       left_mtr = 100;
       forward_left_mtr = 100;
@@ -52,7 +53,7 @@ void opcontrol() {
 			delay(20);
 		}
 
-  //Arda's design if needed remove
+  //Arda's design if needed remove (Rotate Left)
     if (master.get_digital(DIGITAL_LEFT)) {
       left_mtr = -100;
       forward_left_mtr = -100;
@@ -60,10 +61,18 @@ void opcontrol() {
       forward_right_mtr = -100;
       delay(20);
     }
-
+	//Arda's design if needed remove (Outtake)
     if (master.get_digital(DIGITAL_DOWN)) {
 			intake = -127;
 			delay(20);
+    }
+	//Arda's design if needed remove (Move Forward)
+		if (master.get_digital(DIGITAL_UP)) {
+			left_mtr = 90;
+      forward_left_mtr = 90;
+      right_mtr = -90;
+      forward_right_mtr = -90;
+      delay(20);
     }
 
     if (master.get_digital(DIGITAL_R1)) {
