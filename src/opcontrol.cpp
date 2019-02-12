@@ -5,11 +5,11 @@ Motor left_mtr(3);
 Motor forward_left_mtr(4);
 Motor right_mtr(8);
 Motor forward_right_mtr(18);
-Motor crane(13);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(15);
-
+int shootValue;
+int shootValue2;
 
 // Opcontrol
 void opcontrol() {
@@ -17,34 +17,36 @@ void opcontrol() {
 		int left = (master.get_analog(ANALOG_LEFT_Y));
 		int right = (master.get_analog(ANALOG_RIGHT_Y) * -1);
 		// Stick variables
-    //left_mtr.move(master.get_analog(ANALOG_LEFT_Y));
 		left_mtr = left;
 		forward_left_mtr = left;
 		right_mtr = right;
 		forward_right_mtr = right;
 		// Reset button functions
-		crane = 0;
-		launcher = 0;
-		launcher2 = 0;
+		launcher = shootValue;
+		launcher2 = shootValue2;
 		intake = 0;
 		delay(20);
 
-		if (master.get_digital(DIGITAL_R2)) {
-			crane = 110;
-			delay(20);
-		}
-
-		if (master.get_digital(DIGITAL_L2)) {
-			crane = -110;
-			delay(20);
-		}
-
+		// Launcher
 		if (master.get_digital(DIGITAL_L1)) {
-			launcher = 127;
-		  launcher2 = -127;
+			shootValue = 127;
+			shootValue2 = -127;
 			delay(20);
+		} else {
+			while (shootValue >= 0) {
+				shootValue = shootValue - 10;
+				shootValue2 = shootValue2 + 10;
+				delay(20);
+			}
+
+			while (shootValue < 0) {
+				shootValue = 0;
+				shootValue2 = 0;
+				delay(20);
+			}
 		}
-      //Arda's design if needed remove (Rotate Right)
+
+		// Rotate Right
 		if (master.get_digital(DIGITAL_RIGHT)) {
       left_mtr = 100;
       forward_left_mtr = 100;
@@ -53,7 +55,7 @@ void opcontrol() {
 			delay(20);
 		}
 
-  //Arda's design if needed remove (Rotate Left)
+		// Rotate Left
     if (master.get_digital(DIGITAL_LEFT)) {
       left_mtr = -100;
       forward_left_mtr = -100;
@@ -61,12 +63,20 @@ void opcontrol() {
       forward_right_mtr = -100;
       delay(20);
     }
-	//Arda's design if needed remove (Outtake)
+
+		// Intake
     if (master.get_digital(DIGITAL_DOWN)) {
 			intake = -127;
 			delay(20);
     }
-	//Arda's design if needed remove (Move Forward)
+
+		// Outtake
+		if (master.get_digital(DIGITAL_R1)) {
+			intake = 127;
+			delay(20);
+		}
+
+		// Move forward
 		if (master.get_digital(DIGITAL_UP)) {
 			left_mtr = 90;
       forward_left_mtr = 90;
@@ -75,11 +85,7 @@ void opcontrol() {
       delay(20);
     }
 
-    if (master.get_digital(DIGITAL_R1)) {
-      intake = 127;
-      delay(20);
-    }
-
+		// Auto Switch
 		if (master.get_digital_new_press(DIGITAL_X)) {
 			autonomous();
 			delay(20);

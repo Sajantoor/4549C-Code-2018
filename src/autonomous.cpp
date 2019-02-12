@@ -4,7 +4,6 @@ Motor left_mtrAuto(3);
 Motor forward_left_mtrAuto(4);
 Motor right_mtrAuto(8);
 Motor forward_right_mtrAuto(18);
-Motor craneAuto(13);
 Motor launcherAuto(6);
 Motor launcher2Auto(7);
 Motor intakeAuto(15);
@@ -149,59 +148,6 @@ void autonomous() {
       delay(2000);
       motors(7500, 7500, -7500, -7500, 250, 250); // move towards the cone
       delay(10000);
-      // flip(2); // flips the cone
-      // delay(2000);
-      // motors(-1800, -1800, 1800, 1800, 150, 150); // move back from the cone
-      // flip(0); // moves arm back to normal position
-      // delay(2000);
-      //
-      // // second cone
-      // motors(750, 750, 750, 750, 150, 150); // rotate 45 degrees
-      // delay(2000);
-      // motors(1800, 1800, -1800, -1800, 150, 150); // lines up with the cone
-      // delay(2000);
-      // motors(-750, -750, -750, -750, 150, 150); // rotate -45 degrees facing the cone
-      // delay(2000);
-      // motors(4200, 4200, -4200, -4200, 150, 150); // move towards the cone and hits it
-      // delay(2000);
-      //
-      // // // 3rd and 4th cone on the other side
-      // motors(-4200, -4200, 4200, 4200, 150, 150); // moves away from the cone
-      // delay(2000);
-
-      // motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees
-      // delay(2000);
-      // motors(5400, 5400, -5400, -5400, 150, 150); // moves forward towards the last cone
-      // delay(2000);
-      // motors(-750, -750, -750, -750, 150, 150); // rotates -45 degrees
-      // delay(2000);
-      // motors(3600, 3600, -3600, -3600, 150, 150); // moves towards the last red cone
-      // delay(2000);
-      // flip(2); // flips cone
-      // delay(2000);
-      // motors(-1800, -1800, 1800, 1800, 150, 150); // moves away from the cone
-      // flip(0);
-      // delay(2000);
-      // motors(-750, -750, -750, -750, 150, 150); // rotates -45 facing up
-      // delay(2000);
-      // motors(1800, 1800, -1800, -1800, 150, 150); // move one square up
-      // delay(2000);
-      // motors(750, 750, 750, 750, 150, 150); // rotates 45 degrees facing target cone
-      // delay(2000);
-      // motors(1800, 1800, -1800, -1800, 150, 150); // knocks over cone
-
-      // // park attempt
-      // motors(-3600, -3600, 3600, 3600, 1000, 1000);
-      // delay(20);
-      // motors(-800, -800, -800, -800, 1000, 1000); // rotate -45 degrees
-      // delay(20);
-      // motors(1800, 1800, -1800, -1800, 1000, 1000);
-      // delay(20);
-      // motors(800, 800, 800, 800, 1000, 1000);
-      // delay(20);
-      // // park itself
-      // motors(3600, 3600, -3600, -3600, 1000, 1000);
-      // delay(20);
     }
   }
 }
