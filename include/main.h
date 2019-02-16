@@ -50,11 +50,6 @@
  * namespace.
  */
 using namespace pros;
-
-extern bool red;
-extern bool front;
-extern int autonomousMode;
-extern void autonomous();
 // using namespace okapi;
 
 /**

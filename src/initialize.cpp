@@ -1,5 +1,5 @@
 #include "main.h"
-#include "motor.h"
+#include "variables.h"
 using namespace pros::literals;
 
 Motor left_mtr(3);

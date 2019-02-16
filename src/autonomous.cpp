@@ -1,12 +1,6 @@
 #include "main.h"
+#include "variables.h"
 using namespace pros::literals;
-Motor left_mtrAuto(3);
-Motor forward_left_mtrAuto(4);
-Motor right_mtrAuto(8);
-Motor forward_right_mtrAuto(18);
-Motor launcherAuto(6);
-Motor launcher2Auto(7);
-Motor intakeAuto(14);
 
 int posLeft = 0;
 int posForLeft = 0;
@@ -41,10 +35,10 @@ void motors(int left, int forLeft, int right, int forRight, int velocityLeft, in
   int posRight = right;
   int posForRight = forRight;
 
-  left_mtrAuto.move_relative(posLeft, velocityLeft);
-  forward_left_mtrAuto.move_relative(posForLeft, velocityLeft);
-  right_mtrAuto.move_relative(posRight, velocityRight);
-  forward_right_mtrAuto.move_relative(posForRight, velocityRight);
+  left_mtr.move_relative(posLeft, velocityLeft);
+  forward_left_mtr.move_relative(posForLeft, velocityLeft);
+  right_mtr.move_relative(posRight, velocityRight);
+  forward_right_mtr.move_relative(posForRight, velocityRight);
 
   // if (posLeft > 0) {
   //   while (!((left_mtrAuto.get_position() < (posLeft + 5)) && (left_mtrAuto.get_position() > (posLeft - 5)))) {
@@ -110,18 +104,18 @@ void motors(int left, int forLeft, int right, int forRight, int velocityLeft, in
 }
 
 void shoot() {
-  launcherAuto = 110;
-  launcher2Auto = -110;
+  launcher = 110;
+  launcher2 = -110;
   delay(4000);
-  launcherAuto = 0;
-  launcher2Auto = 0;
+  launcher = 0;
+  launcher2 = 0;
   delay(20);
 }
 
-void intake() {
-  intakeAuto = 127;
+void intakeFunc() {
+  intake = 127;
   delay(2000);
-  intakeAuto = 0;
+  intake = 0;
 }
 
 void autonomous() {
@@ -136,7 +130,7 @@ void autonomous() {
       // flag and first cone
       shoot();
       delay(2000);
-      intake();
+      intakeFunc();
       delay(2000);
       motors(1500, 1500, 1500, 1500, 250, 250);
       delay(2000);
