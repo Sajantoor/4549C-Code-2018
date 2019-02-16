@@ -6,7 +6,7 @@ Motor right_mtrAuto(8);
 Motor forward_right_mtrAuto(18);
 Motor launcherAuto(6);
 Motor launcher2Auto(7);
-Motor intakeAuto(15);
+Motor intakeAuto(14);
 
 int posLeft = 0;
 int posForLeft = 0;
@@ -15,23 +15,23 @@ int posForRight = 0;
 
 void flip(int val) {
   // 1 represents on, crane is up.
-  if (val == 1) {
-    craneAuto.move_voltage(12000);
-    delay(200);
-    craneAuto.move_voltage(0);
-  }
-  // flip cap value
-  if (val == 2) {
-    craneAuto.move_voltage(12000);
-    delay(350);
-    craneAuto.move_voltage(0);
-  }
-  // 0 represents off, crane is down.
-  if (val == 0) {
-    craneAuto.move_voltage(-12000);
-    delay(70);
-    craneAuto.move_voltage(0);
-  }
+  // if (val == 1) {
+  //   craneAuto.move_voltage(12000);
+  //   delay(200);
+  //   craneAuto.move_voltage(0);
+  // }
+  // // flip cap value
+  // if (val == 2) {
+  //   craneAuto.move_voltage(12000);
+  //   delay(350);
+  //   craneAuto.move_voltage(0);
+  // }
+  // // 0 represents off, crane is down.
+  // if (val == 0) {
+  //   craneAuto.move_voltage(-12000);
+  //   delay(70);
+  //   craneAuto.move_voltage(0);
+  // }
 }
 
 // Move the motors.

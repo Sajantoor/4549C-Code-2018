@@ -1,5 +1,14 @@
 #include "main.h"
+#include "motor.h"
 using namespace pros::literals;
+
+Motor left_mtr(3);
+Motor forward_left_mtr(4);
+Motor right_mtr(8);
+Motor forward_right_mtr(18);
+Motor launcher(6);
+Motor launcher2(7);
+Motor intake(20);
 int autonomousMode = 1;
 bool red = true;
 bool front = true;
