@@ -6,14 +6,14 @@ void shoot() {
   launcher = 110;
   launcher2 = -110;
   delay(2000);
-  intake = -127;
+  intake = 127;
   delay(1000);
   launcher = 0;
   launcher2 = 0;
 }
 
 void flip(int time) {
-  intake = 127;
+  intake = -127;
   delay(time);
 }
 // Move the motors.
@@ -53,6 +53,7 @@ void autonomous() {
 
       // flag and first cone
       // shoot();
+      drive(1800, 1800, -1800, -1800, 200, 200);
       // delay(2000);
       // intakeFunc();
       // delay(2000);
@@ -66,7 +67,6 @@ void autonomous() {
       // delay(2000);
       // motors(7500, 7500, -7500, -7500, 250, 250); // move towards the cone
       // delay(10000);
-      shoot();
 
     }
   }

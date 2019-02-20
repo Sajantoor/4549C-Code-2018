@@ -1,5 +1,6 @@
 # Gitignore #
 .vscode
+bin
 
 # OS generated files #
 ######################
