@@ -53,7 +53,51 @@ void autonomous() {
 
       // flag and first cone
       // shoot();
-      drive(1800, 1800, -1800, -1800, 200, 200);
+
+      // Moves from a backwards position, hits first flag, rotates towards first cone
+      if (autonomousMode == 1) {
+        drive(-3600, -3600, 3600, 3600, 200, 200);
+        delay(20);
+        drive(1800, 1800, -1800, -1800, 200, 200);
+        delay(20);
+        drive(800, 800, 800, 800, 200, 200);
+        delay(20);
+      }
+
+      // Drives into first and flips first cone
+      if (autonomousMode == 2) {
+        drive(1800, 1800, -1800, -1800, 200, 200);
+        flip(2000);
+        delay(20);
+      }
+
+      // Moves back and rotates towards platform
+      if (autonomousMode == 3) {
+          drive(-1800, -1800, 1800, 1800, 200, 200);
+          delay(20);
+          drive(-800, -800, -800, -800, 200, 200);
+      }
+
+      // FLips second cone and moves back to park
+      if (autonomousMode == 4) {
+          drive(5400, 5400, -5400, -5400, 200, 200);
+          intake(2000);
+          delay(1000);
+          drive(-5400, -5400, 5400, 5400, 200, 200);
+      }
+
+      // Moves towards platform and parks
+      if (autonomousMode == 5) {
+        drive(800, 800, 800, 800, 200, 200);
+        delay(20);
+        drive(1800, 1800, -1800, -1800, 200, 200);
+        delay(20);
+        drive(4500, 4500, -4500, -4500, 200, 200);
+      }
+
+
+
+
       // delay(2000);
       // intakeFunc();
       // delay(2000);
@@ -68,7 +112,7 @@ void autonomous() {
       // motors(7500, 7500, -7500, -7500, 250, 250); // move towards the cone
       // delay(10000);
 
-    }
+    } 
   }
 }
 

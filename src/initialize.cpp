@@ -9,7 +9,7 @@ Motor forward_right_mtr(18);
 Motor launcher(6);
 Motor launcher2(7);
 Motor intake(20);
-int autonomousMode = 1;
+int autonomousMode = 0;
 bool red = true;
 bool front = true;
 

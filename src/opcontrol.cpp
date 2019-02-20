@@ -123,6 +123,7 @@ void opcontrol() {
 		if (master.get_digital_new_press(DIGITAL_X)) {
 			autonomous();
 			delay(20);
+			autonomousMode++;
 		}
 	}
 }
