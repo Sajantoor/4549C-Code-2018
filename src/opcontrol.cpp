@@ -69,21 +69,6 @@ void opcontrol() {
 			}
 		}
 
-		if (master.get_digital(DIGITAL_R1)) {
-			intakeValue = -80;
-			delay(20);
-		} else {
-			while (intakeValue < 0) {
-				intakeValue += 20;
-				delay(20);
-			}
-
-			while (intakeValue > 0) {
-				intakeValue = 0;
-				delay(20);
-			}
-		}
-
 		// Move forward
 		if (master.get_digital(DIGITAL_UP)) {
 			left_mtr = 127;
@@ -123,7 +108,16 @@ void opcontrol() {
 		if (master.get_digital_new_press(DIGITAL_X)) {
 			autonomous();
 			delay(20);
+		}
+
+		if (master.get_digital_new_press(DIGITAL_B)) {
+			autonomousMode--;
+			delay(20);
+		}
+
+		if (master.get_digital_new_press(DIGITAL_A)) {
 			autonomousMode++;
+			delay(20);
 		}
 	}
 }
