@@ -48,10 +48,10 @@ void platformFunc() {
 	if (pressed) {
 		if (front) {
 			platform = false;
-			pros::lcd::set_text(2, "no platform");
+			pros::lcd::set_text(3, "no platform");
 		} else {
 			platform = true;
-			pros::lcd::set_text(2, "platform");
+			pros::lcd::set_text(3, "platform");
 		}
 	}
 }
