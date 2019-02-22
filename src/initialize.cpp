@@ -12,6 +12,7 @@ Motor intake(20);
 int autonomousMode = 1;
 bool red = true;
 bool front = true;
+bool platform = true;
 
 void redBlue() {
 	static bool pressed = false;
@@ -41,12 +42,27 @@ void front_back() {
 	}
 }
 
+void platformFunc() {
+	static bool pressed = false;
+	pressed = !pressed;
+	if (pressed) {
+		if (front) {
+			platform = false;
+			pros::lcd::set_text(2, "no platform");
+		} else {
+			platform = true;
+			pros::lcd::set_text(2, "platform");
+		}
+	}
+}
+
 void initialize() {
 	red = true;
 	front = true;
 	pros::lcd::initialize();
 	pros::lcd::register_btn0_cb(redBlue);
 	pros::lcd::register_btn1_cb(front_back);
+	pros::lcd::register_btn2_cb(platformFunc);
 }
 
 
