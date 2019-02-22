@@ -6,19 +6,30 @@ void shoot(int shootDelay, int intakeTime) {
   launcher = 110;
   launcher2 = -110;
   delay(shootDelay);
-  intake = 80;
+  intake = 127;
   delay(intakeTime);
   launcher = 0;
   launcher2 = 0;
+  intake = 0;
 }
 
 void intakeFunc(int time) {
   intake = 127;
   delay(time);
+  intake = 0;
 }
 
 void flip(int time) {
   intake = -100;
+  delay(time);
+  intake = 0;
+}
+
+void park(int left, int forLeft, int right, int forRight, int velocityLeft, int velocityRight, int time) {
+  left_mtr.move_absolute(left, velocityLeft);
+  forward_left_mtr.move_absolute(forLeft, velocityLeft);
+  right_mtr.move_absolute(right, velocityRight);
+  forward_right_mtr.move_absolute(forRight, velocityRight);
   delay(time);
 }
 // Move the motors.
@@ -66,8 +77,15 @@ void autonomous() {
         // RED FRONT AUTO
         // Drive forwards and intakes a ball, flips cap
         if (autonomousMode == 1) {
+          left_mtr.tare_position();
+          forward_left_mtr.tare_position();
+          right_mtr.tare_position();
+          forward_right_mtr.tare_position();
           drive(3200, 3200, -3200, -3200, 150, 150, false, true);
-          intakeFunc(150);
+          intakeFunc(500);
+          delay(20);
+          autonomousMode++;
+          autonomous();
           delay(20);
         }
 
@@ -75,38 +93,56 @@ void autonomous() {
         if (autonomousMode == 2) {
           drive(-3400, -3400, 3400, 3400, 180, 180, false, false);
           delay(20);
-          flip(50);
+          autonomousMode++;
+          autonomous();
+          delay(20);
         }
 
         // Moves forward rotates back facing the flags, lined up
         if (autonomousMode == 3) {
-          drive(700, 700, -700, -700, 200, 200, false, false);
+          drive(730, 730, -730, -730, 200, 200, false, false);
           delay(20);
-          drive(700, 700, 700, 700, 150, 150, false, false);
+          drive(760, 760, 760, 760, 150, 150, false, false);
+          delay(20);
+          autonomousMode++;
+          autonomous();
+          delay(20);
         }
 
         // Shoots middle flag
         if (autonomousMode == 4) {
-          shoot(800, 250);
+          shoot(850, 300);
+          delay(20);
+          autonomousMode++;
+          autonomous();
           delay(20);
         }
 
         // Shoots top flag
         if (autonomousMode == 5) {
-          shoot(2000, 1000);
+          shoot(1500, 2000);
+          delay(20);
+          autonomousMode++;
+          autonomous();
           delay(20);
         }
 
         // Moves towards platform and rotates towards platform
         if (autonomousMode == 6) {
-          drive(1800, 1800, -1800, -1800, 200, 200, false, false);
+          drive(1700, 1700, -1700, -1700, 200, 200, false, false);
           delay(20);
-          drive(-750, -750, -750, -750, 200, 200, false, false);
+          drive(-800, -800, -800, -800, 200, 200, false, false);
+          delay(20);
+          autonomousMode++;
+          autonomous();
+          delay(20);
         }
 
         // Parks
         if (autonomousMode == 7) {
-          drive(4200, 4200, -4200, -4200, 200, 200, false, false);
+          park(4600, 4600, -4600, -4600, 200, 200, 2000);
+          delay(20);
+          autonomousMode++;
           delay(20);
         }
       }
@@ -116,9 +152,10 @@ void autonomous() {
       if (front == false) {
         // RED BACK AUTO
        // Go front, grab ball and flip cap
-       if (autonomousMdoe == 1) {
+       if (autonomousMode == 1) {
+
          drive(3200, 3200, -3200, -3200, 150, 150, false, true);
-         intakeFunc(150);
+         intakeFunc(700);
          delay(20);
        }
 
@@ -145,7 +182,7 @@ void autonomous() {
        if (autonomousMode == 5) {
          drive(-5400, -5400, 5400, 5400, 200, 200, false, false);
          delay(20);
-         drive(700, 700, -700, -700, 200, false, false);
+         drive(700, 700, -700, -700, 200, 200, false, false);
        }
 
        // rotates and moves towards platform
