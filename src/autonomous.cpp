@@ -71,7 +71,6 @@ void drive(int left, int forLeft, int right, int forRight, int velocityLeft, int
 
 
 void autonomous() {
-  if (platform) {
     if (red) {
       if (front) {
         // RED FRONT AUTO
@@ -82,7 +81,7 @@ void autonomous() {
           right_mtr.tare_position();
           forward_right_mtr.tare_position();
           drive(3200, 3200, -3200, -3200, 150, 150, false, true);
-          intakeFunc(500);
+          intakeFunc(700);
           delay(20);
           autonomousMode++;
           autonomous();
@@ -126,24 +125,25 @@ void autonomous() {
           autonomous();
           delay(20);
         }
+        if (platform) {
+          // Moves towards platform and rotates towards platform
+          if (autonomousMode == 6) {
+            drive(1700, 1700, -1700, -1700, 200, 200, false, false);
+            delay(20);
+            drive(-760, -760, -760, -760, 200, 200, false, false);
+            delay(20);
+            autonomousMode++;
+            autonomous();
+            delay(20);
+          }
 
-        // Moves towards platform and rotates towards platform
-        if (autonomousMode == 6) {
-          drive(1700, 1700, -1700, -1700, 200, 200, false, false);
-          delay(20);
-          drive(-800, -800, -800, -800, 200, 200, false, false);
-          delay(20);
-          autonomousMode++;
-          autonomous();
-          delay(20);
-        }
-
-        // Parks
-        if (autonomousMode == 7) {
-          park(4600, 4600, -4600, -4600, 200, 200, 2000);
-          delay(20);
-          autonomousMode++;
-          delay(20);
+          // Parks
+          if (autonomousMode == 7) {
+            park(4600, 4600, -4600, -4600, 200, 200, 2000);
+            delay(20);
+            autonomousMode++;
+            delay(20);
+          }
         }
       }
     }
@@ -153,56 +153,72 @@ void autonomous() {
         // RED BACK AUTO
        // Go front, grab ball and flip cap
        if (autonomousMode == 1) {
-
+         left_mtr.tare_position();
+         forward_left_mtr.tare_position();
+         right_mtr.tare_position();
+         forward_right_mtr.tare_position();
          drive(3200, 3200, -3200, -3200, 150, 150, false, true);
          intakeFunc(700);
+         delay(20);
+         autonomousMode++;
+         autonomous();
          delay(20);
        }
 
        // Move back one square, rotate facing the wall
        if (autonomousMode == 2) {
-         drive(-1800, -1800, 1800, 1800, 200, 200, false, false);
+         drive(-600, -600, 600, 600, 200, 200, false, false);
          delay(20);
-         drive(-750, -750, -750, -750, 200, 200, false, false);
+         autonomousMode++;
+         autonomous();
          delay(20);
        }
        // Moves forward rotates back facing the cap
        if (autonomousMode == 3) {
-         drive(1800, 1800, -1800, -1800, 200, 200, false, false);
-         delay(20);
-         drive(750, 750, 750, 750, 200, 200, false, false);
+          drive(740, 740, 740, 740, 200, 200, false, false);
+          delay(20);
+          shoot(850, 300);
+          delay(20);
+          autonomousMode++;
+          autonomous();
+          delay(20);
        }
        // Moves towards cone and flips cap
        if (autonomousMode == 4) {
-         drive(1800, 1800, -1800, -1800, 200, 200, true, false);
+         shoot(1500, 1000);
          delay(20);
-         flip(1000);
-       }
-       // backs into the wall and moves forward
-       if (autonomousMode == 5) {
-         drive(-5400, -5400, 5400, 5400, 200, 200, false, false);
+         drive(-740, -740, -740, -740, 200, 200, false, false);
          delay(20);
-         drive(700, 700, -700, -700, 200, 200, false, false);
+         autonomousMode++;
+         autonomous();
+         delay(20);
        }
 
-       // rotates and moves towards platform
-       if (autonomousMode == 5) {
-         drive(750, 750, 750, 750, 200, 200, false, false);
-         delay(20);
-         drive(3600, 3600, -3600, -3600, 200, 200, false, false);
-       }
-       // Rotates toward platform and parks
-       if (autonomousMode == 6) {
-         drive(-750, -750, -750, -750, 200, 200, false, false);
-         delay(20);
-         drive(3600, 3600, -3600, -3600, 200, 200, false, false);
+       if (platform) {
+         if (autonomousMode == 5) {
+           drive(-2000, -2000, 2000, 2000, 200, 200, false, false);
+           delay(20);
+           drive(-760, -760, -760, -760, 200, 200, false, false);
+           autonomousMode++;
+           autonomous();
+           delay(20);
+         }
+
+         // rotates and moves towards platform
+         if (autonomousMode == 5) {
+           park(4600, 4600, -4600, -4600, 200, 200, 2000);
+           delay(20);
+           autonomousMode++;
+           autonomous();
+           delay(20);
+         }
        }
       }
     }
 
     if (red == false) {
       if (front) {
-        // BLUE FRONT AUTO
+        // BLUE BACK AUTO
         // Drive forwards and intakes a ball, flips cap
         if (autonomousMode == 1) {
           left_mtr.tare_position();
@@ -210,7 +226,7 @@ void autonomous() {
           right_mtr.tare_position();
           forward_right_mtr.tare_position();
           drive(3200, 3200, -3200, -3200, 150, 150, false, true);
-          intakeFunc(500);
+          intakeFunc(700);
           delay(20);
           autonomousMode++;
           autonomous();
@@ -254,88 +270,96 @@ void autonomous() {
           autonomous();
           delay(20);
         }
+        if (platform) {
+          // Moves towards platform and rotates towards platform
+          if (autonomousMode == 6) {
+            drive(1700, 1700, -1700, -1700, 200, 200, false, false);
+            delay(20);
+            drive(760, 760, 760, 760, 200, 200, false, false);
+            delay(20);
+            autonomousMode++;
+            autonomous();
+            delay(20);
+          }
 
-        // Moves towards platform and rotates towards platform
-        if (autonomousMode == 6) {
-          drive(1700, 1700, -1700, -1700, 200, 200, false, false);
-          delay(20);
-          drive(800, 800, 800, 800, 200, 200, false, false);
-          delay(20);
-          autonomousMode++;
-          autonomous();
-          delay(20);
-        }
-
-        // Parks
-        if (autonomousMode == 7) {
-          park(4600, 4600, -4600, -4600, 200, 200, 2000);
-          delay(20);
-          autonomousMode++;
-          delay(20);
+          // Parks
+          if (autonomousMode == 7) {
+            park(4600, 4600, -4600, -4600, 200, 200, 2000);
+            delay(20);
+            autonomousMode++;
+            delay(20);
+          }
         }
       }
     }
 
     if (red == false) {
       if (front == false) {
-          //  BLUE BACK AUTO
           // RED BACK AUTO
          // Go front, grab ball and flip cap
          if (autonomousMode == 1) {
-
+           left_mtr.tare_position();
+           forward_left_mtr.tare_position();
+           right_mtr.tare_position();
+           forward_right_mtr.tare_position();
            drive(3200, 3200, -3200, -3200, 150, 150, false, true);
            intakeFunc(700);
+           delay(20);
+           autonomousMode++;
+           autonomous();
            delay(20);
          }
 
          // Move back one square, rotate facing the wall
          if (autonomousMode == 2) {
-           drive(-1800, -1800, 1800, 1800, 200, 200, false, false);
+           drive(-600, -600, 600, 600, 200, 200, false, false);
            delay(20);
-           drive(750, 750, 750, 750, 200, 200, false, false);
+           autonomousMode++;
+           autonomous();
            delay(20);
          }
          // Moves forward rotates back facing the cap
          if (autonomousMode == 3) {
-           drive(1800, 1800, -1800, -1800, 200, 200, false, false);
-           delay(20);
-           drive(-750, -750, -750, -750, 200, 200, false, false);
+            drive(-740, -740, -740, -740, 200, 200, false, false);
+            delay(20);
+            shoot(850, 300);
+            delay(20);
+            autonomousMode++;
+            autonomous();
+            delay(20);
          }
          // Moves towards cone and flips cap
          if (autonomousMode == 4) {
-           drive(1800, 1800, -1800, -1800, 200, 200, true, false);
+           shoot(1500, 1000);
            delay(20);
-           flip(1000);
-         }
-         // backs into the wall and moves forward
-         if (autonomousMode == 5) {
-           drive(-5400, -5400, 5400, 5400, 200, 200, false, false);
+           drive(740, 740, 740, 740, 200, 200, false, false);
            delay(20);
-           drive(700, 700, -700, -700, 200, 200, false, false);
+           autonomousMode++;
+           autonomous();
+           delay(20);
          }
 
-         // rotates and moves towards platform
-         if (autonomousMode == 5) {
-           drive(-750, -750, -750, -750, 200, 200, false, false);
-           delay(20);
-           drive(3600, 3600, -3600, -3600, 200, 200, false, false);
+         if (platform) {
+           if (autonomousMode == 5) {
+             drive(-2000, -2000, 2000, 2000, 200, 200, false, false);
+             delay(20);
+             drive(760, 760, 760, 760, 200, 200, false, false);
+             autonomousMode++;
+             autonomous();
+             delay(20);
+           }
+
+           // rotates and moves towards platform
+           if (autonomousMode == 5) {
+             park(4600, 4600, -4600, -4600, 200, 200, 2000);
+             delay(20);
+             autonomousMode++;
+             autonomous();
+             delay(20);
+           }
          }
-         // Rotates toward platform and parks
-         if (autonomousMode == 6) {
-           drive(750, 750, 750, 750, 200, 200, false, false);
-           delay(20);
-           drive(3600, 3600, -3600, -3600, 200, 200, false, false);
-         }
-      }
     }
-
-
-  } else {
-    // no platform
   }
-
-
-
 }
 
 // possible improvements would be slow the velocity down when driving so it doesn't have as abrupt of a stop and won't screw it's position.
